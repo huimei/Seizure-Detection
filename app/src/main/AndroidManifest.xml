@@ -43,6 +43,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="khcy3lhe.seizuredetection.HomeActivity" />
         </activity>
+        <activity
+            android:name=".ManageMedicatonAlert"
+            android:label="@string/title_activity_manage_medicaton_alert"
+            android:parentActivityName=".ManagePage"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="khcy3lhe.seizuredetection.ManagePage" />
+        </activity>
     </application>
 
 </manifest>

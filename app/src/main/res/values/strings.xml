@@ -89,5 +89,6 @@
     <string name="medicationReminder">Manage Medication Reminder</string>
     <string name="managePersonalDetails">Manage Personal Details</string>
     <string name="manageAppointment">Manage Appointment</string>
+    <string name="title_activity_manage_medicaton_alert">Manage Medicaton Alert</string>
 
 </resources>

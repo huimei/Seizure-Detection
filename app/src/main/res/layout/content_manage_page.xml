@@ -19,7 +19,9 @@
         android:id="@+id/personalDetails"
         android:layout_marginTop="84dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:onClick="" />
 
     <Button
         android:layout_width="wrap_content"
@@ -28,7 +30,9 @@
         android:id="@+id/medication"
         android:layout_marginTop="66dp"
         android:layout_below="@+id/personalDetails"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:onClick="ManageMedicationAlert"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -37,6 +41,8 @@
         android:id="@+id/appointment"
         android:layout_below="@+id/medication"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp" />
+        android:layout_marginTop="64dp"
+        android:clickable="true"
+        android:onClick="" />
 
 </RelativeLayout>

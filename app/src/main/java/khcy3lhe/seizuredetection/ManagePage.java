@@ -1,5 +1,6 @@
 package khcy3lhe.seizuredetection;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,12 @@ public class ManagePage extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void ManageMedicationAlert(View view)
+    {
+        Intent intent = new Intent(ManagePage.this, ManageMedicatonAlert.class);
+        startActivity(intent);
     }
 
 }
