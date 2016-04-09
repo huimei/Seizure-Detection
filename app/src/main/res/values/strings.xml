@@ -86,5 +86,8 @@
         <item>Awake</item>
     </string-array>
     <string name="title_activity_manage_page">Manage Page</string>
+    <string name="medicationReminder">Manage Medication Reminder</string>
+    <string name="managePersonalDetails">Manage Personal Details</string>
+    <string name="manageAppointment">Manage Appointment</string>
 
 </resources>

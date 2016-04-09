@@ -15,7 +15,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manage Personal Details"
+        android:text="@string/managePersonalDetails"
         android:id="@+id/personalDetails"
         android:layout_marginTop="84dp"
         android:layout_alignParentTop="true"
@@ -24,7 +24,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manage Medication Reminder"
+        android:text="@string/medicationReminder"
         android:id="@+id/medication"
         android:layout_marginTop="66dp"
         android:layout_below="@+id/personalDetails"
@@ -33,9 +33,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manage Appoinment"
+        android:text="@string/manageAppointment"
         android:id="@+id/appointment"
         android:layout_below="@+id/medication"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="64dp" />
+
 </RelativeLayout>
