@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">Seizure Detection</string>
+    <string name="appTitle">Seizure Management App</string>
+
+    <string name="about">About</string>
+    <string name="recoveryGuide">Recovery Guide</string>
+    <string name="whenToCall">When to Call 999</string>
+    <string name="manage">Manage</string>
+    <string name="history">History</string>
+
+    <string name="title_activity_info_page">InfoPage</string>
+    <string name="info_page">This is a page to display info only</string>
+    <string name="info_page2">(Currently not available yet)</string>
+
+    <string name="title_activity_add_seizure">Add Seizure</string>
+    <string name="seizureType">Seizure Type:</string>
+    <string name="date">Date:</string>
+    <string name="startTime">Start Time:</string>
+    <string name="duration">Duration:</string>
+    <string name="preictalSymptoms">Preictal Symptoms:</string>
+    <string name="postictalSymptoms">Postictal Symptoms:</string>
+    <string name="medicated">Medicated:</string>
+    <string name="comments">Comments (Optional):</string>
+    <string name="trigger">Trigger:</string>
+    <string name="awakeAsleep">Awake/Asleep:</string>
+    <string name="uploadVideo">Upload Video:</string>
+
+    <string-array name="seizureTypeList">
+        <item>Unknown</item>
+        <item>Absence</item>
+        <item>Atonic</item>
+        <item>Clonic</item>
+        <item>Focal (Complex)</item>
+        <item>Focal (Simple)</item>
+        <item>Myclonic</item>
+        <item>Tonic</item>
+        <item>Tonic Clonic</item>
+    </string-array>
+
+    <string-array name="preictalList">
+        <item>No warning</item>
+        <item>Déjà vu</item>
+        <item>Jamais vu</item>
+        <item>Smells</item>
+        <item>Sounds</item>
+        <item>Tastes</item>
+        <item>Visual loss or blurring</item>
+        <item>“Strange” feelings</item>
+        <item>Pleasant feelings</item>
+        <item>Racing thoughts</item>
+        <item>Dizzy or lightheaded</item>
+        <item>Headache</item>
+        <item>Nausea or other stomach feelings</item>
+        <item>Numbness or tingling in part of the body</item>
+    </string-array>
+
+    <string-array name="postictalList">
+        <item>Delay responding</item>
+        <item>Sleepy</item>
+        <item>Confused</item>
+        <item>Memory loss</item>
+        <item>Difficulty talking or writing</item>
+        <item>Feeling fuzzy, light headed or dizzy</item>
+        <item>Scared</item>
+        <item>Anxious</item>
+        <item>Frustrated, embarrassed, ashamed</item>
+        <item>Headache or other pain</item>
+        <item>Nausea or upset stomach</item>
+    </string-array>
+
+    <string-array name="triggerList">
+        <item>No trigger</item>
+        <item>Illness</item>
+        <item>Tiredness</item>
+        <item>Medication related</item>
+        <item>Stress</item>
+        <item>Excitement</item>
+        <item>Boredom</item>
+        <item>Menstruation</item>
+        <item>Alcohol</item>
+        <item>Flickering lights</item>
+    </string-array>
+
+    <string-array name="sleepList">
+        <item>Asleep</item>
+        <item>Awake</item>
+    </string-array>
+    <string name="title_activity_manage_page">Manage Page</string>
+
+</resources>

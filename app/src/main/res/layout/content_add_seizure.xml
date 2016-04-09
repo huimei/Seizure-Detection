@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="khcy3lhe.seizuredetection.AddSeizure"
+    tools:showIn="@layout/activity_add_seizure">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="800dp"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="khcy3lhe.seizuredetection.AddSeizure"
+        tools:showIn="@layout/activity_add_seizure">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/seizureType"
+            android:id="@+id/seizureType"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/date"
+            android:id="@+id/date"
+            android:layout_below="@+id/seizureType"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="26dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/startTime"
+            android:id="@+id/startTime"
+            android:layout_marginTop="26dp"
+            android:layout_below="@+id/date"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/duration"
+            android:id="@+id/duration"
+            android:layout_marginTop="29dp"
+            android:layout_below="@+id/startTime"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/preictalSymptoms"
+            android:id="@+id/preictalSymptoms"
+            android:layout_below="@+id/duration"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="29dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/postictalSymptoms"
+            android:id="@+id/postictalSymptoms"
+            android:layout_below="@+id/preictalSymptoms"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="26dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/trigger"
+            android:id="@+id/trigger"
+            android:layout_below="@+id/postictalSymptoms"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="27dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/awakeAsleep"
+            android:id="@+id/awakeAsleep"
+            android:layout_below="@+id/trigger"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="29dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/medicated"
+            android:id="@+id/medicated"
+            android:layout_below="@+id/awakeAsleep"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="28dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/uploadVideo"
+            android:id="@+id/uploadVideo"
+            android:layout_below="@+id/medicated"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="27dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/comments"
+            android:id="@+id/comments"
+            android:layout_below="@+id/uploadVideo"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="31dp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fill_seizureType"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/preictalSymptoms"
+            android:layout_toEndOf="@+id/preictalSymptoms"
+            android:layout_above="@+id/date"
+            android:spinnerMode="dialog"
+            android:entries="@array/seizureTypeList"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/fill_date"
+            android:layout_alignTop="@+id/date"
+            android:layout_alignRight="@+id/fill_seizureType"
+            android:layout_alignEnd="@+id/fill_seizureType"
+            android:hint="dd/mm/yyyy"
+            android:clickable="true"
+            android:focusable="false"
+            android:onClick="showDatePickerDialog"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="time"
+            android:ems="10"
+            android:id="@+id/fill_time"
+            android:layout_alignTop="@+id/startTime"
+            android:layout_alignRight="@+id/fill_date"
+            android:layout_alignEnd="@+id/fill_date"
+            android:hint="hr:min"
+            android:clickable="true"
+            android:focusable="false"
+            android:onClick="showTimePickerDialog"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/fill_duration"
+            android:layout_alignTop="@+id/duration"
+            android:layout_alignLeft="@+id/fill_time"
+            android:layout_alignStart="@+id/fill_time"
+            android:hint="min.sec" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fill_preictal"
+            android:layout_alignTop="@+id/preictalSymptoms"
+            android:layout_alignRight="@+id/fill_seizureType"
+            android:layout_alignEnd="@+id/fill_seizureType"
+            android:layout_toRightOf="@+id/comments"
+            android:layout_toEndOf="@+id/comments"
+            android:layout_above="@+id/postictalSymptoms"
+            android:spinnerMode="dialog"
+            android:entries="@array/preictalList"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fill_postictal"
+            android:layout_alignTop="@+id/postictalSymptoms"
+            android:layout_alignLeft="@+id/fill_preictal"
+            android:layout_alignStart="@+id/fill_preictal"
+            android:layout_above="@+id/trigger"
+            android:layout_alignRight="@+id/fill_preictal"
+            android:layout_alignEnd="@+id/fill_preictal"
+            android:spinnerMode="dialog"
+            android:entries="@array/postictalList"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fill_trigger"
+            android:layout_alignTop="@+id/trigger"
+            android:layout_alignRight="@+id/fill_postictal"
+            android:layout_alignEnd="@+id/fill_postictal"
+            android:layout_above="@+id/awakeAsleep"
+            android:layout_alignLeft="@+id/fill_time"
+            android:layout_alignStart="@+id/fill_time"
+            android:spinnerMode="dialog"
+            android:entries="@array/triggerList"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fill_sleep"
+            android:layout_alignTop="@+id/awakeAsleep"
+            android:layout_alignRight="@+id/fill_postictal"
+            android:layout_alignEnd="@+id/fill_postictal"
+            android:layout_alignLeft="@+id/fill_trigger"
+            android:layout_alignStart="@+id/fill_trigger"
+            android:layout_alignBottom="@+id/awakeAsleep"
+            android:spinnerMode="dialog"
+            android:entries="@array/sleepList"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fill_medicated"
+            android:layout_alignTop="@+id/medicated"
+            android:layout_alignRight="@+id/fill_postictal"
+            android:layout_alignEnd="@+id/fill_postictal"
+            android:checked="false" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:id="@+id/fill_uploadVideo"
+            android:layout_alignTop="@+id/uploadVideo"
+            android:layout_alignRight="@+id/fill_medicated"
+            android:layout_alignEnd="@+id/fill_medicated" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/fill_comment"
+            android:layout_below="@+id/comments"
+            android:layout_alignRight="@+id/fill_medicated"
+            android:layout_alignEnd="@+id/fill_medicated"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNew_button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/add_new"
+            android:clickable="true"
+            android:onClick="AddSeizure"/>
+
+
+    </RelativeLayout>
+
+
+</android.support.v4.widget.NestedScrollView>
