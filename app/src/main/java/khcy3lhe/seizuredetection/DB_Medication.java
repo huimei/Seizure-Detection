@@ -25,14 +25,11 @@ public class DB_Medication {
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
-
-
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
                     KEY_MEDICATION + "," +
-                    KEY_TIME + "," +
-                    " UNIQUE (" + KEY_ROWID +"));";
+                    KEY_TIME ;
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -44,6 +41,8 @@ public class DB_Medication {
         public void onCreate(SQLiteDatabase db) {
             Log.w(TAG, DATABASE_CREATE);
             db.execSQL(DATABASE_CREATE);
+            db.execSQL("INSERT INTO " + SQLITE_TABLE + " Values ('Med A','15:00');");
+            db.execSQL("INSERT INTO " + SQLITE_TABLE + " Values ('Med B','20:00');");
         }
 
         @Override

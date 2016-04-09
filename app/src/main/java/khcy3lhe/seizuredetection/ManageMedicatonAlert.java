@@ -48,7 +48,6 @@ public class ManageMedicatonAlert extends AppCompatActivity {
 
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
-
     }
 
 }
