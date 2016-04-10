@@ -12,24 +12,35 @@
     tools:context="khcy3lhe.seizuredetection.ManageMedicatonAlert"
     tools:showIn="@layout/activity_manage_medicaton_alert">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addNew"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/add_new" />
-
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/medicationList"
-        android:layout_below="@+id/addNew"
+        android:choiceMode="singleChoice"
+        android:divider="#000000"
+        android:dividerHeight="4px"
+        android:listSelector="#4e5555"
+        android:layout_below="@+id/medicationDelete_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:choiceMode="singleChoice"
-        android:layout_alignParentEnd="false"
-        android:divider="#000000"
-        android:dividerHeight="4px"/>
+        android:clickable="true"
+        android:focusable="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        android:id="@+id/medicationDelete_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addNew"
+        android:id="@+id/addNewMedication_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

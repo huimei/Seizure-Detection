@@ -85,10 +85,13 @@
         <item>Asleep</item>
         <item>Awake</item>
     </string-array>
+
     <string name="title_activity_manage_page">Manage Page</string>
     <string name="medicationReminder">Manage Medication Reminder</string>
     <string name="managePersonalDetails">Manage Personal Details</string>
     <string name="manageAppointment">Manage Appointment</string>
     <string name="title_activity_manage_medicaton_alert">Manage Medicaton Alert</string>
+    <string name="delete">Delete</string>
+    <string name="addNew">Add New</string>
 
 </resources>

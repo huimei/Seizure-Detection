@@ -10,7 +10,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text="TextView"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:background="@drawable/list_selector"/>
 
     <TextView
         android:id="@+id/medicationTime"
@@ -19,6 +20,7 @@
         android:layout_alignLeft="@+id/medicationName"
         android:layout_below="@+id/medicationName"
         android:text="TextView"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:background="@drawable/list_selector"/>
 
 </RelativeLayout>

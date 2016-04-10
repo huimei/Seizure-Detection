@@ -84,6 +84,14 @@ public class DB_Medication {
         return true;
     }
 
+    public Integer deleteMedication (String name, String time)
+    {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        return db.delete(SQLITE_TABLE,
+                KEY_MEDICATION + "=? AND " + KEY_TIME + "=? ",
+                new String[] {name, time});
+    }
+
 
     public Cursor fetchAllMedication() {
 
