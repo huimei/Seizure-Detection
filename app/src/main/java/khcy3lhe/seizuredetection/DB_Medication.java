@@ -1,8 +1,10 @@
 package khcy3lhe.seizuredetection;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -28,8 +30,10 @@ public class DB_Medication {
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
-                    KEY_MEDICATION + "," +
-                    KEY_TIME ;
+                    KEY_MEDICATION + "varchar," +
+                    KEY_TIME + "integer)" ;
+
+
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -41,8 +45,6 @@ public class DB_Medication {
         public void onCreate(SQLiteDatabase db) {
             Log.w(TAG, DATABASE_CREATE);
             db.execSQL(DATABASE_CREATE);
-            db.execSQL("INSERT INTO " + SQLITE_TABLE + " Values ('Med A','15:00');");
-            db.execSQL("INSERT INTO " + SQLITE_TABLE + " Values ('Med B','20:00');");
         }
 
         @Override
@@ -71,9 +73,22 @@ public class DB_Medication {
         }
     }
 
+    public boolean insertMedication  (String medicationName, int medicationTime) {
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("medication", medicationName);
+        contentValues.put("time", medicationTime);
+
+        db.insert(SQLITE_TABLE, null, contentValues);
+        return true;
+    }
+
+
     public Cursor fetchAllMedication() {
 
-        Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID, KEY_MEDICATION, KEY_TIME}, null, null, null, null, null);
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor mCursor = db.query(SQLITE_TABLE, new String[] {KEY_ROWID, KEY_MEDICATION, KEY_TIME}, null, null, null, null, null);
 
         if (mCursor != null) {
             mCursor.moveToFirst();

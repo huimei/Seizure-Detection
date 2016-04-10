@@ -30,5 +30,6 @@
         android:layout_alignParentStart="true"
         android:choiceMode="singleChoice"
         android:layout_alignParentEnd="false"
-        android:divider="#0000CC" />
+        android:divider="#000000"
+        android:dividerHeight="4px"/>
 </RelativeLayout>

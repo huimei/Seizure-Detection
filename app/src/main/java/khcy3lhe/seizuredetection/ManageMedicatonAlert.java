@@ -23,7 +23,8 @@ public class ManageMedicatonAlert extends AppCompatActivity {
 
         dbHelper = new DB_Medication(this);
         dbHelper.open();
-
+        dbHelper.insertMedication("MedA",1300);
+        dbHelper.insertMedication("MedB",1600);
         displayListView();
     }
 
