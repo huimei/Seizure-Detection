@@ -1,5 +1,6 @@
 package khcy3lhe.seizuredetection;
 
+
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,12 +32,16 @@ public class ManageMedicatonAlert extends AppCompatActivity {
         //Run DB_Medication
         dbHelper = new DB_Medication(this);
         dbHelper.open();
-        dbHelper.insertMedication("MedA", 1300);
-        dbHelper.insertMedication("MedB", 1600);
+
+        //Hardcoded to display data
+        dbHelper.deleteAll();
+        dbHelper.insertMedication("MedA", 1500);
+        dbHelper.insertMedication("MedB",1700);
 
         //List View Declare
         cursor = dbHelper.fetchAllMedication();
         listView = (ListView) findViewById(R.id.medicationList);
+        listView.setScrollContainer(false);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         //Display List View
@@ -49,6 +54,8 @@ public class ManageMedicatonAlert extends AppCompatActivity {
                                     int position, long id) {
                 listView.setSelected(true);
 
+                // Get the cursor, positioned to the corresponding row in the result set
+                cursor = (Cursor) listView.getItemAtPosition(position);
             }
         });
 
@@ -57,13 +64,16 @@ public class ManageMedicatonAlert extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                medicationName = cursor.getString(cursor.getColumnIndexOrThrow("medicationName"));
+                medicationTime = cursor.getString(cursor.getColumnIndexOrThrow("medicationTime"));
                 dbHelper.deleteMedication(medicationName,medicationTime);
+                listView.deferNotifyDataSetChanged();
             }
         });
     }
 
     private void displayListView(){
+
         //The desired columns to be bound
         String[] columns = new String[] {
                 DB_Medication.KEY_MEDICATION,
@@ -81,5 +91,4 @@ public class ManageMedicatonAlert extends AppCompatActivity {
         //Assign adapter to ListView
         listView.setAdapter(dataAdapter);
     }
-
 }

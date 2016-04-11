@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -84,10 +83,10 @@ public class DB_Medication {
         return true;
     }
 
-    public Integer deleteMedication (String name, String time)
+    public void deleteMedication (String name, String time)
     {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        return db.delete(SQLITE_TABLE,
+        db.delete(SQLITE_TABLE,
                 KEY_MEDICATION + "=? AND " + KEY_TIME + "=? ",
                 new String[] {name, time});
     }
@@ -96,12 +95,17 @@ public class DB_Medication {
     public Cursor fetchAllMedication() {
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        Cursor mCursor = db.query(SQLITE_TABLE, new String[] {KEY_ROWID, KEY_MEDICATION, KEY_TIME}, null, null, null, null, null);
+        Cursor mCursor = db.query(SQLITE_TABLE, new String[]{KEY_ROWID, KEY_MEDICATION, KEY_TIME}, null, null, null, null, null);
 
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
         return mCursor;
+    }
+
+    public void deleteAll (){
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.delete(SQLITE_TABLE,null,null);
     }
 
 
