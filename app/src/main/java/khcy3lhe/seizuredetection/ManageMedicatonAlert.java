@@ -1,20 +1,26 @@
 package khcy3lhe.seizuredetection;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 public class ManageMedicatonAlert extends AppCompatActivity {
 
     private DB_Medication dbHelper;
     private SimpleCursorAdapter dataAdapter;
+    public int ID;
     public String medicationName;
     public String medicationTime;
     static Button delete;
@@ -33,12 +39,12 @@ public class ManageMedicatonAlert extends AppCompatActivity {
         dbHelper = new DB_Medication(this);
         dbHelper.open();
 
-        //Hardcoded to display data
+        //Hardcoded to display data (Should be remove before launching)
         dbHelper.deleteAll();
         dbHelper.insertMedication("MedA", 1500);
-        dbHelper.insertMedication("MedB",1700);
+        dbHelper.insertMedication("MedB", 1700);
 
-        //List View Declare
+        //List View Declaration
         cursor = dbHelper.fetchAllMedication();
         listView = (ListView) findViewById(R.id.medicationList);
         listView.setScrollContainer(false);
@@ -64,12 +70,67 @@ public class ManageMedicatonAlert extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                medicationName = cursor.getString(cursor.getColumnIndexOrThrow("medicationName"));
-                medicationTime = cursor.getString(cursor.getColumnIndexOrThrow("medicationTime"));
-                dbHelper.deleteMedication(medicationName,medicationTime);
-                listView.deferNotifyDataSetChanged();
+                deleteData();
             }
         });
+    }
+
+    public void deleteData(){
+
+        ID = cursor.getInt(cursor.getColumnIndex(DB_Medication.KEY_ROWID));
+        medicationName = cursor.getString(cursor.getColumnIndex(DB_Medication.KEY_MEDICATION));
+        medicationTime = cursor.getString(cursor.getColumnIndex(DB_Medication.KEY_TIME));
+
+        //Alert Dialog for Delete
+        AlertDialog.Builder deleteDialog = new AlertDialog.Builder(ManageMedicatonAlert.this);
+        deleteDialog.setTitle("Delete Item");
+
+        TextView dialogTxtConfirm = new TextView(ManageMedicatonAlert.this);
+        ViewGroup.LayoutParams dialogTxtConfirm_LayoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogTxtConfirm.setLayoutParams(dialogTxtConfirm_LayoutParams);
+        dialogTxtConfirm.setText("Do you sure you want to delete this?");
+
+        TextView dialogTxtMedication = new TextView(ManageMedicatonAlert.this);
+        ViewGroup.LayoutParams dialogTxtMedication_LayoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogTxtMedication.setLayoutParams(dialogTxtMedication_LayoutParams);
+        dialogTxtMedication.setText("Medicine Name: " + String.valueOf(medicationName));
+
+        TextView dialogTxtTime = new TextView(ManageMedicatonAlert.this);
+        ViewGroup.LayoutParams dialogTxtTime_LayoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialogTxtTime.setLayoutParams(dialogTxtTime_LayoutParams);
+        dialogTxtTime.setText("Time: " + String.valueOf(medicationTime));
+
+        LinearLayout layout = new LinearLayout(ManageMedicatonAlert.this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(dialogTxtConfirm);
+        layout.addView(dialogTxtMedication);
+        layout.addView(dialogTxtTime);
+        deleteDialog.setView(layout);
+
+        deleteDialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            // do something when the button is clicked
+            public void onClick(DialogInterface arg0, int arg1) {
+                dbHelper.deleteMedication(ID);
+                updateList();
+                //Notify ListView About Change of Data
+                listView.deferNotifyDataSetChanged();
+
+                //Change data in Adapter
+                dataAdapter.swapCursor(dbHelper.fetchAllMedication());
+            }
+        });
+
+        deleteDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            // do something when the button is clicked
+            public void onClick(DialogInterface arg0, int arg1) {
+
+            }
+        });
+
+        deleteDialog.show();
     }
 
     private void displayListView(){
@@ -91,4 +152,15 @@ public class ManageMedicatonAlert extends AppCompatActivity {
         //Assign adapter to ListView
         listView.setAdapter(dataAdapter);
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        dbHelper.close();
+    }
+
+    private void updateList(){
+        cursor.requery();
+    }
+
 }

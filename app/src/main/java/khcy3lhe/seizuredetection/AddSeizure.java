@@ -33,6 +33,8 @@ public class AddSeizure extends AppCompatActivity{
     static Spinner spinnerSeizureType;
     static Spinner spinnerPreictal;
     static Spinner spinnerPostictal;
+    static Spinner spinnerTrigger;
+    static Spinner spinnerSleep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,20 @@ public class AddSeizure extends AppCompatActivity{
         spinnerPostictal = (Spinner) findViewById(R.id.fill_postictal);
         List<String> postictalSymptoms = Arrays.asList(getResources().getStringArray(R.array.postictalList));
         ArrayAdapter<String> dataAdapterPostictal = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,postictalSymptoms);
+        dataAdapterPreictal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPostictal.setAdapter(dataAdapterPostictal);
+
+        //Trigger
+        spinnerTrigger = (Spinner) findViewById(R.id.fill_trigger);
+        List<String> trigger = Arrays.asList(getResources().getStringArray(R.array.triggerList));
+        ArrayAdapter<String> dataAdapterTrigger = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,postictalSymptoms);
+        dataAdapterPreictal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPostictal.setAdapter(dataAdapterPostictal);
+
+        //Asleep/Awake
+        spinnerSleep = (Spinner) findViewById(R.id.fill_sleep);
+        List<String> sleep = Arrays.asList(getResources().getStringArray(R.array.sleepList));
+        ArrayAdapter<String> dataAdapterSleep = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,postictalSymptoms);
         dataAdapterPreictal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPostictal.setAdapter(dataAdapterPostictal);
 

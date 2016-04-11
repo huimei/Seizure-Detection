@@ -42,7 +42,7 @@
             android:layout_below="@+id/seizureType"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="29dp" />
+            android:layout_marginTop="31dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/startTime"
             android:id="@+id/startTime"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="31dp"
             android:layout_below="@+id/date"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -61,7 +61,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/duration"
             android:id="@+id/duration"
-            android:layout_marginTop="29dp"
+            android:layout_marginTop="31dp"
             android:layout_below="@+id/startTime"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -75,7 +75,7 @@
             android:layout_below="@+id/duration"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="29dp" />
+            android:layout_marginTop="31dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
             android:layout_below="@+id/preictalSymptoms"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="29dp" />
+            android:layout_marginTop="31dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             android:layout_below="@+id/postictalSymptoms"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="29dp" />
+            android:layout_marginTop="31dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
             android:layout_below="@+id/trigger"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="29dp" />
+            android:layout_marginTop="31dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
             android:layout_below="@+id/awakeAsleep"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="29dp" />
+            android:layout_marginTop="31dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
             android:layout_below="@+id/medicated"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="29dp" />
+            android:layout_marginTop="31dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -141,7 +141,7 @@
             android:layout_below="@+id/uploadVideo"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="29dp" />
+            android:layout_marginTop="31dp" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -165,7 +165,7 @@
             android:layout_alignTop="@+id/date"
             android:layout_alignRight="@+id/fill_seizureType"
             android:layout_alignEnd="@+id/fill_seizureType"
-            android:hint="dd/mm/yyyy"
+            android:hint="@string/dateFormat"
             android:clickable="true"
             android:focusable="false"
             android:onClick="showDatePickerDialog"/>
@@ -179,7 +179,7 @@
             android:layout_alignTop="@+id/startTime"
             android:layout_alignRight="@+id/fill_date"
             android:layout_alignEnd="@+id/fill_date"
-            android:hint="hr:min"
+            android:hint="@string/timeFormat"
             android:clickable="true"
             android:focusable="false"
             android:onClick="showTimePickerDialog"/>
@@ -193,7 +193,7 @@
             android:layout_alignTop="@+id/duration"
             android:layout_alignLeft="@+id/fill_time"
             android:layout_alignStart="@+id/fill_time"
-            android:hint="min.sec" />
+            android:hint="@string/durationFormat" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -219,28 +219,28 @@
             android:layout_alignRight="@+id/fill_preictal"
             android:layout_alignEnd="@+id/fill_preictal"
             android:spinnerMode="dialog"
-            android:entries="@array/postictalList"/>
+            android:entries="@array/postictalList" />
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fill_trigger"
             android:layout_alignTop="@+id/trigger"
-            android:layout_alignRight="@+id/fill_postictal"
+            android:layout_alignLeft="@+id/fill_postictal"
             android:layout_alignEnd="@+id/fill_postictal"
+            android:layout_alignRight="@+id/fill_postictal"
             android:layout_above="@+id/awakeAsleep"
-            android:layout_alignLeft="@+id/fill_time"
-            android:layout_alignStart="@+id/fill_time"
+            android:layout_alignStart="@+id/fill_postictal"
             android:spinnerMode="dialog"
-            android:entries="@array/triggerList"/>
+            android:entries="@array/triggerList" />
 
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fill_sleep"
             android:layout_alignTop="@+id/awakeAsleep"
-            android:layout_alignRight="@+id/fill_postictal"
-            android:layout_alignEnd="@+id/fill_postictal"
+            android:layout_alignRight="@+id/fill_trigger"
+            android:layout_alignEnd="@+id/fill_trigger"
             android:layout_alignLeft="@+id/fill_trigger"
             android:layout_alignStart="@+id/fill_trigger"
             android:layout_alignBottom="@+id/awakeAsleep"
@@ -260,7 +260,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload"
+            android:text="@string/upload"
             android:id="@+id/fill_uploadVideo"
             android:layout_alignTop="@+id/uploadVideo"
             android:layout_alignRight="@+id/fill_medicated"
@@ -278,14 +278,15 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <ImageButton
+        <Button
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addNew_button"
+            android:text="@string/save"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/add_new"
             android:clickable="true"
             android:onClick="AddSeizure"/>
 

@@ -90,8 +90,21 @@
     <string name="medicationReminder">Manage Medication Reminder</string>
     <string name="managePersonalDetails">Manage Personal Details</string>
     <string name="manageAppointment">Manage Appointment</string>
+
     <string name="title_activity_manage_medicaton_alert">Manage Medicaton Alert</string>
     <string name="delete">Delete</string>
     <string name="addNew">Add New</string>
+
+    <string name="title_activity_add_medication">Add Medication Reminder</string>
+    <string name="save">Save</string>
+    <string name="upload">Upload</string>
+    <string name="dateFormat">dd/mm/yyyy</string>
+    <string name="timeFormat">hr:min</string>
+    <string name="durationFormat">min.sec</string>
+    <string-array name="medicationName">
+        <item>Med A</item>
+        <item>Med B</item>
+        <item>Med C</item>
+    </string-array>
 
 </resources>

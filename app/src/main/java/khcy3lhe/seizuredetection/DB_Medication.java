@@ -10,8 +10,6 @@ import android.util.Log;
 
 public class DB_Medication {
 
-
-    public SQLiteDatabase DB;
     public String DBPath;
     private static final String DATABASE_NAME = "SeizureDetection";
     private static final String SQLITE_TABLE = "Medication";
@@ -83,12 +81,12 @@ public class DB_Medication {
         return true;
     }
 
-    public void deleteMedication (String name, String time)
+    public void deleteMedication (int id)
     {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.delete(SQLITE_TABLE,
-                KEY_MEDICATION + "=? AND " + KEY_TIME + "=? ",
-                new String[] {name, time});
+                KEY_ROWID + "=?",
+                new String[] {Integer.toString(id)});
     }
 
 
