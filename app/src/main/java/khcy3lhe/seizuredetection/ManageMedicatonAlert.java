@@ -166,6 +166,12 @@ public class ManageMedicatonAlert extends AppCompatActivity {
         dbHelper.close();
     }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+        dbHelper.close();
+    }
+
     private void updateList(){
         cursor.requery();
     }

@@ -8,7 +8,8 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "SeizureDetection";
-    private static final int DATABASE_VERSION = 1;
+    //Increase database version whenever new table made
+    private static final int DATABASE_VERSION = 2;
 
     private static final String SQLITE_TABLE_Medication = "Medication";
     public static final String KEY_ROWID_MEDICATION = "_id";
@@ -48,8 +49,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_TRIGGER + " varchar," +
                     KEY_SLEEP+ " varchar," +
                     KEY_MEDICATED + " int," +
-                    KEY_VIDEO + " blob," +
-                    KEY_COMMENTS + " text)";
+                    KEY_VIDEO + " varchar," +
+                    KEY_COMMENTS + " varchar)";
 
 
 

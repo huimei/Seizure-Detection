@@ -22,6 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
@@ -63,7 +64,23 @@ public class AddSeizure extends AppCompatActivity{
         //Run DB_Medication
         dbHelper = new DB_Seizure(this);
         dbHelper.open();
-        //numberofRow = dbHelper.numberOfRows();
+        numberofRow = dbHelper.numberOfRows();
+        boolean exists = dbHelper.isTableExists();
+
+        if (exists==true){
+            Context context1 = getApplicationContext();
+            CharSequence text1 = "It Exists!";
+            int duration1 = Toast.LENGTH_SHORT;
+            Toast toast1 = Toast.makeText(context1, text1, duration1);
+            toast1.show();
+        }else {
+            Context context2 = getApplicationContext();
+            CharSequence text2 = "Nope, you are screwed";
+            int duration2 = Toast.LENGTH_SHORT;
+            Toast toast2 = Toast.makeText(context2, text2, duration2);
+            toast2.show();
+        }
+
 
         //Seizure Type
         spinnerSeizureType = (Spinner) findViewById(R.id.fill_seizureType);

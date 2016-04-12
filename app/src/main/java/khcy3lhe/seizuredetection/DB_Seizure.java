@@ -50,6 +50,25 @@ public class DB_Seizure {
         }
     }
 
+    public boolean isTableExists()
+    {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String tableName = SQLITE_TABLE;
+
+        if (tableName == null || db == null || !db.isOpen())
+        {
+            return false;
+        }
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type = ? AND name = ?", new String[] {"table", tableName});
+        if (!cursor.moveToFirst())
+        {
+            return false;
+        }
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count > 0;
+    }
+
     public int numberOfRows(){
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, SQLITE_TABLE);
