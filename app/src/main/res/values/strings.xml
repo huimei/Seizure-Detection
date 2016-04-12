@@ -101,6 +101,7 @@
     <string name="dateFormat">dd/mm/yyyy</string>
     <string name="timeFormat">hr:min</string>
     <string name="durationFormat">min.sec</string>
+    <string name="cancel">Cancel</string>
     <string-array name="medicationName">
         <item>Med A</item>
         <item>Med B</item>

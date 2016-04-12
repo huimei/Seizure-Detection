@@ -3,6 +3,7 @@ package khcy3lhe.seizuredetection;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -70,6 +71,12 @@ public class DB_Medication {
         if (mDbHelper != null) {
             mDbHelper.close();
         }
+    }
+
+    public int numberOfRows(){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, SQLITE_TABLE);
+        return numRows;
     }
 
     public boolean insertMedication  (String medicationName, int medicationTime) {
