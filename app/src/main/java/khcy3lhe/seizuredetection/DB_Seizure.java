@@ -37,17 +37,17 @@ public class DB_Seizure {
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
-                    KEY_SEIZURE + "varchar," +
-                    KEY_DATE + "integer," +
-                    KEY_STARTTIME + "integer," +
-                    KEY_DURATION + "integer," +
-                    KEY_PREICTAL + "varchar," +
-                    KEY_POSTICTAL + "varchar," +
-                    KEY_TRIGGER + "varchar," +
-                    KEY_SLEEP+ "varchar," +
-                    KEY_MEDICATED + "varchar," +
-                    KEY_VIDEO + "blob," +
-                    KEY_COMMENTS + "text)";
+                    KEY_SEIZURE + " varchar," +
+                    KEY_DATE + " integer," +
+                    KEY_STARTTIME + " integer," +
+                    KEY_DURATION + " integer," +
+                    KEY_PREICTAL + " varchar," +
+                    KEY_POSTICTAL + " varchar," +
+                    KEY_TRIGGER + " varchar," +
+                    KEY_SLEEP+ " varchar," +
+                    KEY_MEDICATED + " varchar," +
+                    KEY_VIDEO + " blob," +
+                    KEY_COMMENTS + " text)";
 
 
 

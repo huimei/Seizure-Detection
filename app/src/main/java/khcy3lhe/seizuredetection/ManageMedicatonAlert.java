@@ -3,6 +3,7 @@ package khcy3lhe.seizuredetection;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -73,6 +74,12 @@ public class ManageMedicatonAlert extends AppCompatActivity {
                 deleteData();
             }
         });
+    }
+
+    public void AddMedication (View view)
+    {
+        Intent intent = new Intent(ManageMedicatonAlert.this, AddMedication.class);
+        startActivity(intent);
     }
 
     public void deleteData(){

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class DB_Medication {
 
     public String DBPath;
@@ -27,8 +29,8 @@ public class DB_Medication {
     private static final String DATABASE_CREATE =
             "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
                     KEY_ROWID + " integer PRIMARY KEY autoincrement," +
-                    KEY_MEDICATION + "varchar," +
-                    KEY_TIME + "integer)" ;
+                    KEY_MEDICATION + " varchar," +
+                    KEY_TIME + " integer)" ;
 
 
 
@@ -92,8 +94,8 @@ public class DB_Medication {
 
     public Cursor fetchAllMedication() {
 
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        Cursor mCursor = db.query(SQLITE_TABLE, new String[]{KEY_ROWID, KEY_MEDICATION, KEY_TIME}, null, null, null, null, null);
+        Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_ROWID,
+                        KEY_MEDICATION, KEY_TIME}, null, null, null, null, null);
 
         if (mCursor != null) {
             mCursor.moveToFirst();

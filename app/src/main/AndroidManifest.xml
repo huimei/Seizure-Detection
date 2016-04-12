@@ -43,15 +43,6 @@
                 android:value="khcy3lhe.seizuredetection.HomeActivity" />
         </activity>
         <activity
-            android:name=".ManageMedicatonAlert"
-            android:label="@string/title_activity_manage_medicaton_alert"
-            android:parentActivityName=".ManagePage"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="khcy3lhe.seizuredetection.ManagePage" />
-        </activity>
-        <activity
             android:name=".AddMedication"
             android:label="@string/title_activity_add_medication"
             android:parentActivityName=".ManageMedicatonAlert"
@@ -59,6 +50,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="khcy3lhe.seizuredetection.ManageMedicatonAlert" />
+        </activity>
+        <activity
+            android:name=".ManageMedicatonAlert"
+            android:label="@string/title_activity_manage_medicaton_alert"
+            android:parentActivityName=".ManagePage"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="khcy3lhe.seizuredetection.ManagePage" />
         </activity>
     </application>
 
