@@ -24,4 +24,10 @@ public class ManagePage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void ManageAppointment(View view)
+    {
+        Intent intent = new Intent(ManagePage.this, ManageAppointment.class);
+        startActivity(intent);
+    }
+
 }

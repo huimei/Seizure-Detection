@@ -9,7 +9,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "SeizureDetection";
     //Increase database version whenever new table made
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String SQLITE_TABLE_Medication = "Medication";
     public static final String KEY_ROWID_MEDICATION = "_id";
@@ -52,6 +52,21 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_VIDEO + " varchar," +
                     KEY_COMMENTS + " varchar)";
 
+    private static final String SQLITE_TABLE_Appointment = "Appointment";
+    public static final String KEY_ROWID_APP = "_id";
+    public static final String KEY_DRNAME = "drname";
+    public static final String KEY_DATE_APP = "date";
+    public static final String KEY_TIME_APP = "time";
+    public static final String KEY_COMMENT_APP = "comment";
+
+    private static final String DATABASE_CREATE_Appointment =
+            "CREATE TABLE if not exists " + SQLITE_TABLE_Appointment + " (" +
+                    KEY_ROWID_APP + " integer PRIMARY KEY autoincrement," +
+                    KEY_DRNAME + " varchar," +
+                    KEY_DATE_APP + " integer," +
+                    KEY_TIME_APP + " integer," +
+                    KEY_COMMENT_APP + " text)";
+
 
 
     DBHelper(Context context) {
@@ -62,6 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DATABASE_CREATE_Medication);
         db.execSQL(DATABASE_CREATE_Seizure);
+        db.execSQL(DATABASE_CREATE_Appointment);
     }
 
     @Override
@@ -70,6 +86,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_Medication);
         db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_Seizure);
+        db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_Appointment);
         onCreate(db);
     }
 

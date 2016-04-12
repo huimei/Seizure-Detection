@@ -431,4 +431,16 @@ public class AddSeizure extends AppCompatActivity{
             addDialog.show();
         }
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        dbHelper.close();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        dbHelper.close();
+    }
 }

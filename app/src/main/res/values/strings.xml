@@ -107,5 +107,6 @@
         <item>Med B</item>
         <item>Med C</item>
     </string-array>
+    <string name="title_activity_manage_appointment">Manage Appointment</string>
 
 </resources>
