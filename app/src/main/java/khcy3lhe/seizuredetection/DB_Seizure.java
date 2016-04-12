@@ -75,7 +75,7 @@ public class DB_Seizure {
         return numRows;
     }
 
-    public boolean insertSeizure  (String seizureType, int date, int startTime, int duration,
+    public boolean insertSeizure  (String seizureType, int date, int startTime, String duration,
                                    String preictal, String postictal, String trigger, String sleep,
                                    int medicated, String video, String comment) {
 
@@ -97,7 +97,7 @@ public class DB_Seizure {
         return true;
     }
 
-    public boolean updateSeizure (int id, String seizureType, int date, int startTime, int duration,
+    public boolean updateSeizure (int id, String seizureType, int date, int startTime, String duration,
                                   String preictal, String postictal, String trigger, String sleep,
                                   int medicated, String video, String comment) {
 

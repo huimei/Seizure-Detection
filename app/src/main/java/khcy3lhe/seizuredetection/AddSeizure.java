@@ -1,29 +1,32 @@
 package khcy3lhe.seizuredetection;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 
 import java.util.Arrays;
@@ -37,20 +40,25 @@ public class AddSeizure extends AppCompatActivity{
 
     static EditText DateEdit;
     static EditText TimeEdit;
+    static EditText DurationEdit;
+    static EditText CommentsEdit;
     static Spinner spinnerSeizureType;
     static Spinner spinnerPreictal;
     static Spinner spinnerPostictal;
     static Spinner spinnerTrigger;
     static Spinner spinnerSleep;
     static Switch buttonMedicated;
+    static Button saveButton;
     static String itemSeizure;
     static int itemDate;
     static int itemTime;
+    static String itemDuration;
     static String itemPreictal;
     static String itemPostictal;
     static String itemTrigger;
     static String itemSleep;
     static int itemMedicated;
+    static String itemComments;
 
 
     @Override
@@ -65,22 +73,6 @@ public class AddSeizure extends AppCompatActivity{
         dbHelper = new DB_Seizure(this);
         dbHelper.open();
         numberofRow = dbHelper.numberOfRows();
-        boolean exists = dbHelper.isTableExists();
-
-        if (exists==true){
-            Context context1 = getApplicationContext();
-            CharSequence text1 = "It Exists!";
-            int duration1 = Toast.LENGTH_SHORT;
-            Toast toast1 = Toast.makeText(context1, text1, duration1);
-            toast1.show();
-        }else {
-            Context context2 = getApplicationContext();
-            CharSequence text2 = "Nope, you are screwed";
-            int duration2 = Toast.LENGTH_SHORT;
-            Toast toast2 = Toast.makeText(context2, text2, duration2);
-            toast2.show();
-        }
-
 
         //Seizure Type
         spinnerSeizureType = (Spinner) findViewById(R.id.fill_seizureType);
@@ -119,6 +111,11 @@ public class AddSeizure extends AppCompatActivity{
                 showTimePickerDialog(v);
             }
         });
+
+        //Duration
+        DurationEdit = (EditText) findViewById(R.id.fill_duration);
+        String duration = DurationEdit.getText().toString();
+        itemDuration = duration;
 
         //Preictal Symptoms
         spinnerPreictal = (Spinner) findViewById(R.id.fill_preictal);
@@ -214,8 +211,26 @@ public class AddSeizure extends AppCompatActivity{
                 }
             }
         });
+
+        //Comments
+        CommentsEdit = (EditText) findViewById(R.id.fill_comment);
+        itemComments = CommentsEdit.getText().toString();
+
+        saveButton = (Button) findViewById(R.id.addNew_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addData();
+            }
+        });
     }
 
+    //Return to Parent Page
+    public void HomeActivity(View view)
+    {
+        Intent intent = new Intent(AddSeizure.this, HomeActivity.class);
+        startActivity(intent);
+    }
 
     //Show fragments
     public void showDatePickerDialog(View v) {
@@ -330,6 +345,90 @@ public class AddSeizure extends AppCompatActivity{
 
             // Do something with the time chosen by the user
             TimeEdit.setText(stringHour + ":" + stringMinute);
+        }
+    }
+
+    public void addData() {
+
+        if (itemDate==0 || itemTime==0){
+            //Alert Dialog for Warning
+            AlertDialog.Builder warningDialog = new AlertDialog.Builder(AddSeizure.this);
+            warningDialog.setTitle("Warning!");
+
+            TextView dialogTxtWarning = new TextView(AddSeizure.this);
+            ViewGroup.LayoutParams dialogTxtWarning_LayoutParams = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialogTxtWarning.setLayoutParams(dialogTxtWarning_LayoutParams);
+            dialogTxtWarning.setText("Please at least fill in Date and Start Time");
+
+            LinearLayout layoutWarning = new LinearLayout(AddSeizure.this);
+            layoutWarning.setOrientation(LinearLayout.VERTICAL);
+            layoutWarning.addView(dialogTxtWarning);
+            warningDialog.setView(layoutWarning);
+
+            warningDialog.setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                // do something when the button is clicked
+                public void onClick(DialogInterface arg0, int arg1) {
+
+                }
+            });
+            warningDialog.show();
+        } else {
+            //Alert Dialog for Add
+            AlertDialog.Builder addDialog = new AlertDialog.Builder(AddSeizure.this);
+            addDialog.setTitle("Add Item");
+
+            TextView dialogTxtConfirm = new TextView(AddSeizure.this);
+            ViewGroup.LayoutParams dialogTxtConfirm_LayoutParams = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialogTxtConfirm.setLayoutParams(dialogTxtConfirm_LayoutParams);
+            dialogTxtConfirm.setText("Do you sure you want to save this?");
+
+            LinearLayout layout = new LinearLayout(AddSeizure.this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.addView(dialogTxtConfirm);
+            addDialog.setView(layout);
+
+            addDialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                // do something when the button is clicked
+                public void onClick(DialogInterface arg0, int arg1) {
+
+                    dbHelper.insertSeizure(itemSeizure, itemDate, itemTime, itemDuration,
+                            itemPreictal, itemPostictal, itemTrigger, itemSleep, itemMedicated, null, itemComments);
+
+                    if (dbHelper.numberOfRows()>numberofRow){
+                        //Show Text on Screen
+                        Context context = getApplicationContext();
+                        CharSequence text = "New seizure record saved";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(context, text, duration);
+
+                        toast.show();
+
+                        //Close Database
+                        dbHelper.close();
+
+                        //Return to Parent Page
+                        Intent intent = new Intent(AddSeizure.this, HomeActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Context context1 = getApplicationContext();
+                        CharSequence text1 = "Data couldn't be save";
+                        int duration1 = Toast.LENGTH_SHORT;
+                        Toast toast1 = Toast.makeText(context1, text1, duration1);
+                        toast1.show();
+                    }
+                }
+            });
+
+            addDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                // do something when the button is clicked
+                public void onClick(DialogInterface arg0, int arg1) {
+
+                }
+            });
+
+            addDialog.show();
         }
     }
 }
