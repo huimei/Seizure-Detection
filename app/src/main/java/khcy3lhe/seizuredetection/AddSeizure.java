@@ -14,12 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ToggleButton;
 
 
 import java.util.Arrays;
@@ -28,6 +31,9 @@ import java.util.List;
 
 public class AddSeizure extends AppCompatActivity{
 
+    private DB_Seizure dbHelper;
+    static int numberofRow;
+
     static EditText DateEdit;
     static EditText TimeEdit;
     static Spinner spinnerSeizureType;
@@ -35,6 +41,16 @@ public class AddSeizure extends AppCompatActivity{
     static Spinner spinnerPostictal;
     static Spinner spinnerTrigger;
     static Spinner spinnerSleep;
+    static Switch buttonMedicated;
+    static String itemSeizure;
+    static int itemDate;
+    static int itemTime;
+    static String itemPreictal;
+    static String itemPostictal;
+    static String itemTrigger;
+    static String itemSleep;
+    static int itemMedicated;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +60,30 @@ public class AddSeizure extends AppCompatActivity{
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //Run DB_Medication
+        dbHelper = new DB_Seizure(this);
+        dbHelper.open();
+        //numberofRow = dbHelper.numberOfRows();
+
         //Seizure Type
         spinnerSeizureType = (Spinner) findViewById(R.id.fill_seizureType);
         List<String> seizureType = Arrays.asList(getResources().getStringArray(R.array.seizureTypeList));
         ArrayAdapter<String> dataAdapterSeizure = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,seizureType);
         dataAdapterSeizure.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSeizureType.setAdapter(dataAdapterSeizure);
+        spinnerSeizureType.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                itemSeizure = (String)parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //Date
         DateEdit = (EditText) findViewById(R.id.fill_date);
@@ -75,6 +109,19 @@ public class AddSeizure extends AppCompatActivity{
         ArrayAdapter<String> dataAdapterPreictal = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,preictalSymptoms);
         dataAdapterPreictal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPreictal.setAdapter(dataAdapterPreictal);
+        spinnerPreictal.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                itemPreictal = (String)parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //Postictal Symptoms
         spinnerPostictal = (Spinner) findViewById(R.id.fill_postictal);
@@ -82,62 +129,75 @@ public class AddSeizure extends AppCompatActivity{
         ArrayAdapter<String> dataAdapterPostictal = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,postictalSymptoms);
         dataAdapterPreictal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPostictal.setAdapter(dataAdapterPostictal);
+        spinnerPostictal.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                itemPostictal = (String)parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //Trigger
         spinnerTrigger = (Spinner) findViewById(R.id.fill_trigger);
         List<String> trigger = Arrays.asList(getResources().getStringArray(R.array.triggerList));
-        ArrayAdapter<String> dataAdapterTrigger = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,postictalSymptoms);
+        ArrayAdapter<String> dataAdapterTrigger = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,trigger);
         dataAdapterPreictal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPostictal.setAdapter(dataAdapterPostictal);
+        spinnerPostictal.setAdapter(dataAdapterTrigger);
+        spinnerTrigger.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                itemTrigger = (String)parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //Asleep/Awake
         spinnerSleep = (Spinner) findViewById(R.id.fill_sleep);
         List<String> sleep = Arrays.asList(getResources().getStringArray(R.array.sleepList));
-        ArrayAdapter<String> dataAdapterSleep = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,postictalSymptoms);
+        ArrayAdapter<String> dataAdapterSleep = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,sleep);
         dataAdapterPreictal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPostictal.setAdapter(dataAdapterPostictal);
+        spinnerPostictal.setAdapter(dataAdapterSleep);
+        spinnerSleep.setOnItemSelectedListener(new OnItemSelectedListener(){
 
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                itemSleep = (String)parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //Medicated
+        buttonMedicated = (Switch) findViewById(R.id.fill_medicated);
+        buttonMedicated.setChecked(false);
+        buttonMedicated.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                   itemMedicated = 1;
+                }else{
+                    itemMedicated = 0;
+                }
+            }
+        });
     }
-
-    OnItemSelectedListener onItemSelectedListenerSeizure = new OnItemSelectedListener(){
-
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    // On selecting a spinner item
-                    String itemSeizure = (String)parent.getItemAtPosition(position);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // TODO Auto-generated method stub
-                }
-    };
-    OnItemSelectedListener onItemSelectedListenerPreictal = new OnItemSelectedListener(){
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            // On selecting a spinner item
-            String itemPreictal = (String)parent.getItemAtPosition(position);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            // TODO Auto-generated method stub
-        }
-    };
-    OnItemSelectedListener onItemSelectedListenerPostictal = new OnItemSelectedListener(){
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            // On selecting a spinner item
-            String itemPostictal = (String)parent.getItemAtPosition(position);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-            // TODO Auto-generated method stub
-        }
-    };
 
 
     //Show fragments
@@ -156,19 +216,51 @@ public class AddSeizure extends AppCompatActivity{
     public static class CalenderFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            String stringMonth;
+            String stringDay;
             // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
+            if (month>=10){
+                stringMonth = Integer.toString(month+1);
+            } else{
+                stringMonth = "0" + Integer.toString(month+1);
+            }
+
+            if (day>=10){
+                stringDay = Integer.toString(day);
+            } else{
+                stringDay = "0" + Integer.toString(day);
+            }
+            String tmp = Integer.toString(year) + stringMonth + stringDay;
+
+            itemDate = Integer.parseInt(tmp);
+
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
+
+            String stringMonth;
+            String stringDay;
+
+            if (month>=10){
+                stringMonth = Integer.toString(month+1);
+            } else{
+                stringMonth = "0" + Integer.toString(month+1);
+            }
+            if (day>=10){
+                stringDay = Integer.toString(day);
+            } else{
+                stringDay = "0" + Integer.toString(day);
+            }
             // Do something with the date chosen by the user
-            DateEdit.setText(day + "/" + (month + 1) + "/" + year);
+            DateEdit.setText(stringDay + "/" + stringMonth + "/" + year);
         }
     }
 
@@ -177,19 +269,50 @@ public class AddSeizure extends AppCompatActivity{
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+            String stringHour;
+            String stringMinute;
+
             // Use the current time as the default values for the picker
             final Calendar c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
+
+            if (hour>=10){
+                stringHour = Integer.toString(hour);
+            }else {
+                stringHour = "0" + Integer.toString(hour);
+            }
+            if (minute>=10){
+                stringMinute = Integer.toString(minute);
+            }else {
+                stringMinute = "0" + Integer.toString(minute);
+            }
+
+            String tmp = stringHour + stringMinute;
+            itemTime = Integer.parseInt(tmp);
 
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute,DateFormat.is24HourFormat(getActivity()));
         }
 
         @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        public void onTimeSet(TimePicker view, int hour, int minute) {
+            String stringHour;
+            String stringMinute;
+
+            if (hour>=10){
+                stringHour = Integer.toString(hour);
+            }else {
+                stringHour = "0" + Integer.toString(hour);
+            }
+            if (minute>=10){
+                stringMinute = Integer.toString(minute);
+            }else {
+                stringMinute = "0" + Integer.toString(minute);
+            }
+
             // Do something with the time chosen by the user
-            TimeEdit.setText(hourOfDay + ":" + minute);
+            TimeEdit.setText(stringHour + ":" + stringMinute);
         }
     }
 }

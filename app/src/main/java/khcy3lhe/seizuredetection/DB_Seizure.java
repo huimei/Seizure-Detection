@@ -3,6 +3,7 @@ package khcy3lhe.seizuredetection;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -13,8 +14,10 @@ public class DB_Seizure {
     public String DBPath;
     private static final String DATABASE_NAME = "SeizureDetection";
     private static final String SQLITE_TABLE = "Seizure";
-    private static final int DATABASE_VERSION = 1;
     private final Context mCtx;
+
+    private DBHelper mDbHelper;
+    private SQLiteDatabase mDb;
 
     public static final String KEY_ROWID = "_id";
     public static final String KEY_SEIZURE = "seizureType";
@@ -30,55 +33,13 @@ public class DB_Seizure {
     public static final String KEY_COMMENTS = "comments";
 
 
-    private static final String TAG = "DB_Seizure";
-    private DatabaseHelper mDbHelper;
-    private SQLiteDatabase mDb;
-
-    private static final String DATABASE_CREATE =
-            "CREATE TABLE if not exists " + SQLITE_TABLE + " (" +
-                    KEY_ROWID + " integer PRIMARY KEY autoincrement," +
-                    KEY_SEIZURE + " varchar," +
-                    KEY_DATE + " integer," +
-                    KEY_STARTTIME + " integer," +
-                    KEY_DURATION + " integer," +
-                    KEY_PREICTAL + " varchar," +
-                    KEY_POSTICTAL + " varchar," +
-                    KEY_TRIGGER + " varchar," +
-                    KEY_SLEEP+ " varchar," +
-                    KEY_MEDICATED + " varchar," +
-                    KEY_VIDEO + " blob," +
-                    KEY_COMMENTS + " text)";
-
-
-
-    private static class DatabaseHelper extends SQLiteOpenHelper {
-
-        DatabaseHelper(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            Log.w(TAG, DATABASE_CREATE);
-            db.execSQL(DATABASE_CREATE);
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-                    + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE);
-            onCreate(db);
-        }
-    }
-
     public DB_Seizure(Context ctx) {
         DBPath = "/data/data/" + ctx.getPackageName() + "/databases";
         this.mCtx = ctx;
     }
 
     public DB_Seizure open() throws SQLException {
-        mDbHelper = new DatabaseHelper(mCtx);
+        mDbHelper = new DBHelper(mCtx);
         mDb = mDbHelper.getWritableDatabase();
         return this;
     }
@@ -89,9 +50,15 @@ public class DB_Seizure {
         }
     }
 
+    public int numberOfRows(){
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, SQLITE_TABLE);
+        return numRows;
+    }
+
     public boolean insertSeizure  (String seizureType, int date, int startTime, int duration,
                                    String preictal, String postictal, String trigger, String sleep,
-                                   String medicated, String video, String comment) {
+                                   int medicated, String video, String comment) {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -113,7 +80,7 @@ public class DB_Seizure {
 
     public boolean updateSeizure (int id, String seizureType, int date, int startTime, int duration,
                                   String preictal, String postictal, String trigger, String sleep,
-                                  String medicated, String video, String comment) {
+                                  int medicated, String video, String comment) {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
