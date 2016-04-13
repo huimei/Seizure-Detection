@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Seizure-Detection.iml" filepath="$PROJECT_DIR$/Seizure-Detection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/angel-sdk-debug/angel-sdk-debug.iml" filepath="$PROJECT_DIR$/angel-sdk-debug/angel-sdk-debug.iml" />
+      <module fileurl="file://$PROJECT_DIR$/angel-sdk-release/angel-sdk-release.iml" filepath="$PROJECT_DIR$/angel-sdk-release/angel-sdk-release.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

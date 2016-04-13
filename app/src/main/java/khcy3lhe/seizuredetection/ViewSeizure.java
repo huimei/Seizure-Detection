@@ -93,8 +93,6 @@ public class ViewSeizure extends AppCompatActivity {
             itemMedicated = cursor.getInt(cursor.getColumnIndex(DB_Seizure.KEY_MEDICATED));
             itemVideo = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_VIDEO));
             itemComments = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_COMMENTS));
-
-            cursor.close();
         }
 
         //Seizure Type

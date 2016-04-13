@@ -94,7 +94,7 @@ public class AddAppointment extends AppCompatActivity {
     }
 
     //Return to Parent Page
-    public void ManageMedicationAlert(View view) {
+    public void ManageAppointment(View view) {
         Intent intent = new Intent(AddAppointment.this, ManageAppointment.class);
         startActivity(intent);
     }

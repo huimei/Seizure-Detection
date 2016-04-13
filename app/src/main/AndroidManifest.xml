@@ -96,6 +96,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="khcy3lhe.seizuredetection.ManageHistory" />
         </activity>
+
     </application>
+
+    <receiver android:name=".OnBootReceiverMedication">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+        </intent-filter>
+    </receiver>
+    <receiver android:name=".OnAlarmReceiverMedication" />
+    <service android:name=".ReminderServiceMedication" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 </manifest>
