@@ -163,7 +163,7 @@ public class AddSeizure extends AppCompatActivity{
         List<String> trigger = Arrays.asList(getResources().getStringArray(R.array.triggerList));
         ArrayAdapter<String> dataAdapterTrigger = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,trigger);
         dataAdapterPreictal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPostictal.setAdapter(dataAdapterTrigger);
+        spinnerTrigger.setAdapter(dataAdapterTrigger);
         spinnerTrigger.setOnItemSelectedListener(new OnItemSelectedListener(){
 
             @Override
@@ -183,7 +183,7 @@ public class AddSeizure extends AppCompatActivity{
         List<String> sleep = Arrays.asList(getResources().getStringArray(R.array.sleepList));
         ArrayAdapter<String> dataAdapterSleep = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,sleep);
         dataAdapterPreictal.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerPostictal.setAdapter(dataAdapterSleep);
+        spinnerSleep.setAdapter(dataAdapterSleep);
         spinnerSleep.setOnItemSelectedListener(new OnItemSelectedListener(){
 
             @Override

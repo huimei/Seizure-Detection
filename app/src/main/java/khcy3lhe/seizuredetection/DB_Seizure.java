@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class DB_Seizure {
 
     public String DBPath;
@@ -97,9 +99,9 @@ public class DB_Seizure {
         return true;
     }
 
-    public boolean updateSeizure (int id, String seizureType, int date, int startTime, String duration,
-                                  String preictal, String postictal, String trigger, String sleep,
-                                  int medicated, String video, String comment) {
+    public boolean updateSeizure(int id, String seizureType, int date, int startTime, String duration,
+                                 String preictal, String postictal, String trigger, String sleep,
+                                 int medicated, String video, String comment) {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -115,7 +117,7 @@ public class DB_Seizure {
         contentValues.put("video", video);
         contentValues.put("comments", comment);
 
-        db.update(SQLITE_TABLE, contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        db.update(SQLITE_TABLE, contentValues, "_id = ? ", new String[] { Integer.toString(id) } );
         return true;
     }
 
@@ -133,6 +135,17 @@ public class DB_Seizure {
         Cursor mCursor = db.query(SQLITE_TABLE, new String[]{KEY_ROWID, KEY_SEIZURE, KEY_DATE, KEY_STARTTIME,
                                     KEY_DURATION, KEY_PREICTAL, KEY_POSTICTAL, KEY_TRIGGER, KEY_SLEEP, KEY_MEDICATED,
                                     KEY_VIDEO, KEY_COMMENTS}, null, null, null, null, null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
+    public Cursor fetchSeizure(int id){
+
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor mCursor = db.rawQuery("select * from Seizure where _id="+id+"", null);
 
         if (mCursor != null) {
             mCursor.moveToFirst();

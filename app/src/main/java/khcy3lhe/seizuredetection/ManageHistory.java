@@ -22,7 +22,7 @@ public class ManageHistory extends AppCompatActivity {
 
     private DB_Seizure dbHelper;
     private SimpleCursorAdapter dataAdapter;
-    public int ID;
+    public static int ID;
     public String seizureType;
     public String history_date;
     public String history_time;
