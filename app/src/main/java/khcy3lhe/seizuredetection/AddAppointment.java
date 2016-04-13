@@ -1,8 +1,11 @@
 package khcy3lhe.seizuredetection;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,23 +15,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class AddAppointment extends AppCompatActivity {
 
+    private DB_Appointment dbHelper;
     static EditText DrName;
     static EditText DateEdit;
     static EditText TimeEdit;
     static EditText CommentEdit;
+    static Button save;
     static String itemDrName;
     static int itemDate;
     static int itemTime;
     static String itemComment;
+
+    static int numberofRow;
 
 
 
@@ -39,6 +51,11 @@ public class AddAppointment extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //Run DB_Medication
+        dbHelper = new DB_Appointment(this);
+        dbHelper.open();
+        numberofRow = dbHelper.numberOfRows();
 
         //Doctor's name
         DrName = (EditText) findViewById(R.id.fillDrName);
@@ -65,6 +82,15 @@ public class AddAppointment extends AppCompatActivity {
         //Comment
         CommentEdit = (EditText) findViewById(R.id.fillAppComment);
         itemComment = CommentEdit.getText().toString();
+
+        //Save Button Action
+        save = (Button) findViewById(R.id.saveButton);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addData();
+            }
+        });
     }
 
     //Return to Parent Page
@@ -164,6 +190,127 @@ public class AddAppointment extends AppCompatActivity {
             String tmp = stringHour + stringMinute;
             itemTime = Integer.parseInt(tmp);
         }
+    }
+
+    public void addData() {
+
+        if (itemDrName==null || itemDate==0 || itemTime==0){
+            //Alert Dialog for Warning
+            AlertDialog.Builder warningDialog = new AlertDialog.Builder(AddAppointment.this);
+            warningDialog.setTitle("Warning!");
+
+            TextView dialogTxtWarning = new TextView(AddAppointment.this);
+            ViewGroup.LayoutParams dialogTxtWarning_LayoutParams = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialogTxtWarning.setLayoutParams(dialogTxtWarning_LayoutParams);
+            dialogTxtWarning.setText("Please fill in the name, date and time");
+
+            LinearLayout layoutWarning = new LinearLayout(AddAppointment.this);
+            layoutWarning.setOrientation(LinearLayout.VERTICAL);
+            layoutWarning.addView(dialogTxtWarning);
+            warningDialog.setView(layoutWarning);
+
+            warningDialog.setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                // do something when the button is clicked
+                public void onClick(DialogInterface arg0, int arg1) {
+
+                }
+            });
+            warningDialog.show();
+        } else {
+            //Alert Dialog for Add
+            AlertDialog.Builder addDialog = new AlertDialog.Builder(AddAppointment.this);
+            addDialog.setTitle("Add Item");
+
+            TextView dialogTxtConfirm = new TextView(AddAppointment.this);
+            ViewGroup.LayoutParams dialogTxtConfirm_LayoutParams = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialogTxtConfirm.setLayoutParams(dialogTxtConfirm_LayoutParams);
+            dialogTxtConfirm.setText("Do you sure you want to add this?");
+
+            TextView dialogTxtDrName = new TextView(AddAppointment.this);
+            ViewGroup.LayoutParams dialogTxtDrName_LayoutParams = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialogTxtDrName.setLayoutParams(dialogTxtDrName_LayoutParams);
+            dialogTxtDrName.setText("Doctor's Name: " + itemDrName);
+
+            TextView dialogTxtDate = new TextView(AddAppointment.this);
+            ViewGroup.LayoutParams dialogTxtDate_LayoutParams = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialogTxtDate.setLayoutParams(dialogTxtDate_LayoutParams);
+            dialogTxtDate.setText("Date: " + Integer.toString(itemDate));
+
+            TextView dialogTxtTime = new TextView(AddAppointment.this);
+            ViewGroup.LayoutParams dialogTxtTime_LayoutParams = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialogTxtTime.setLayoutParams(dialogTxtTime_LayoutParams);
+            dialogTxtTime.setText("Time: " + Integer.toString(itemTime));
+
+            TextView dialogTxtComment = new TextView(AddAppointment.this);
+            ViewGroup.LayoutParams dialogTxtComment_LayoutParams = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialogTxtComment.setLayoutParams(dialogTxtComment_LayoutParams);
+            dialogTxtComment.setText("Comments: " + itemComment);
+
+            LinearLayout layout = new LinearLayout(AddAppointment.this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.addView(dialogTxtConfirm);
+            layout.addView(dialogTxtDrName);
+            layout.addView(dialogTxtDate);
+            layout.addView(dialogTxtTime);
+            layout.addView(dialogTxtComment);
+            addDialog.setView(layout);
+
+            addDialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                // do something when the button is clicked
+                public void onClick(DialogInterface arg0, int arg1) {
+                    dbHelper.insertAppoinment(itemDrName, itemDate, itemTime, itemComment);
+                    if (dbHelper.numberOfRows()>numberofRow){
+                        //Show Text on Screen
+                        Context context = getApplicationContext();
+                        CharSequence text = "New medication reminder saved";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(context, text, duration);
+
+                        toast.show();
+
+                        //Close Database
+                        dbHelper.close();
+
+                        //Return to Parent Page
+                        Intent intent = new Intent(AddAppointment.this, ManageAppointment.class);
+                        startActivity(intent);
+                    }else{
+                        Context context1 = getApplicationContext();
+                        CharSequence text1 = "Data couldn't be save";
+                        int duration1 = Toast.LENGTH_SHORT;
+                        Toast toast1 = Toast.makeText(context1, text1, duration1);
+                        toast1.show();
+                    }
+                }
+            });
+
+            addDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                // do something when the button is clicked
+                public void onClick(DialogInterface arg0, int arg1) {
+
+                }
+            });
+
+            addDialog.show();
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        dbHelper.close();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        dbHelper.close();
     }
 
 
