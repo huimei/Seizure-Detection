@@ -109,27 +109,11 @@ public class AddMedication extends AppCompatActivity {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            String stringHour;
-            String stringMinute;
 
             // Use the current time as the default values for the picker
             final Calendar c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
-
-            if (hour>=10){
-                stringHour = Integer.toString(hour);
-            }else {
-                stringHour = "0" + Integer.toString(hour);
-            }
-            if (minute>=10){
-                stringMinute = Integer.toString(minute);
-            }else {
-                stringMinute = "0" + Integer.toString(minute);
-            }
-
-            String tmp = stringHour + stringMinute;
-            TIME = Integer.parseInt(tmp);
 
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
@@ -153,6 +137,9 @@ public class AddMedication extends AppCompatActivity {
 
             // Do something with the time chosen by the user
             TimeEdit.setText(stringHour + ":" + stringMinute);
+
+            String tmp = stringHour + stringMinute;
+            TIME = Integer.parseInt(tmp);
         }
     }
 

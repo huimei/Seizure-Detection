@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AddSeizure extends AppCompatActivity{
@@ -249,31 +250,17 @@ public class AddSeizure extends AppCompatActivity{
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-            String stringMonth;
-            String stringDay;
             // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            if (month>=10){
-                stringMonth = Integer.toString(month+1);
-            } else{
-                stringMonth = "0" + Integer.toString(month+1);
-            }
-
-            if (day>=10){
-                stringDay = Integer.toString(day);
-            } else{
-                stringDay = "0" + Integer.toString(day);
-            }
-            String tmp = Integer.toString(year) + stringMonth + stringDay;
-
-            itemDate = Integer.parseInt(tmp);
+            DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
+            dialog.getDatePicker().setMaxDate(new Date().getTime());
 
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            return dialog;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -291,6 +278,10 @@ public class AddSeizure extends AppCompatActivity{
             } else{
                 stringDay = "0" + Integer.toString(day);
             }
+
+            String tmp = Integer.toString(year) + stringMonth + stringDay;
+            itemDate = Integer.parseInt(tmp);
+
             // Do something with the date chosen by the user
             DateEdit.setText(stringDay + "/" + stringMonth + "/" + year);
         }
@@ -301,27 +292,11 @@ public class AddSeizure extends AppCompatActivity{
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            String stringHour;
-            String stringMinute;
 
             // Use the current time as the default values for the picker
             final Calendar c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
-
-            if (hour>=10){
-                stringHour = Integer.toString(hour);
-            }else {
-                stringHour = "0" + Integer.toString(hour);
-            }
-            if (minute>=10){
-                stringMinute = Integer.toString(minute);
-            }else {
-                stringMinute = "0" + Integer.toString(minute);
-            }
-
-            String tmp = stringHour + stringMinute;
-            itemTime = Integer.parseInt(tmp);
 
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute,DateFormat.is24HourFormat(getActivity()));
@@ -342,6 +317,9 @@ public class AddSeizure extends AppCompatActivity{
             }else {
                 stringMinute = "0" + Integer.toString(minute);
             }
+
+            String tmp = stringHour + stringMinute;
+            itemTime = Integer.parseInt(tmp);
 
             // Do something with the time chosen by the user
             TimeEdit.setText(stringHour + ":" + stringMinute);
