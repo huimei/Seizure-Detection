@@ -68,6 +68,22 @@ public class ManageHistory extends AppCompatActivity {
             }
         });
 
+        //List View on long click action
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            public boolean onItemLongClick(AdapterView<?> arg0, View v,
+                                           int position, long id) {
+
+                // Get the cursor, positioned to the corresponding row in the result set
+                cursor = (Cursor) listView.getItemAtPosition(position);
+
+                Intent intent = new Intent(ManageHistory.this, ViewSeizure.class);
+                startActivity(intent);
+
+                 return true;
+            }
+        });
+
         //Delete Button Action
         delete = (Button) findViewById(R.id.historyDelete_button);
         delete.setOnClickListener(new View.OnClickListener() {
