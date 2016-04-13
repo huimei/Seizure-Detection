@@ -119,16 +119,15 @@ public class DB_Seizure {
         return true;
     }
 
-    public void deleteMedication (String name, String time)
-    {
+    public void deleteSeizure (int id) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.delete(SQLITE_TABLE,
-                KEY_DATE + "=? AND " + KEY_STARTTIME + "=? ",
-                new String[] {name, time});
+                KEY_ROWID + "=?",
+                new String[] {Integer.toString(id)});
     }
 
 
-    public Cursor fetchAllMedication() {
+    public Cursor fetchAllSeizure() {
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         Cursor mCursor = db.query(SQLITE_TABLE, new String[]{KEY_ROWID, KEY_SEIZURE, KEY_DATE, KEY_STARTTIME,

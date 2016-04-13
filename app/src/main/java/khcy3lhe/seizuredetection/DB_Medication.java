@@ -60,8 +60,7 @@ public class DB_Medication {
         return true;
     }
 
-    public void deleteMedication (int id)
-    {
+    public void deleteMedication (int id) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.delete(SQLITE_TABLE,
                 KEY_ROWID + "=?",

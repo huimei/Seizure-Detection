@@ -47,7 +47,7 @@ public class DB_Appointment {
         return numRows;
     }
 
-    public boolean insertAppoinment  (String drName, int appointmentDate, int appointmentTime, String comment) {
+    public boolean insertAppointment  (String drName, int appointmentDate, int appointmentTime, String comment) {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -60,8 +60,7 @@ public class DB_Appointment {
         return true;
     }
 
-    public void deleteAppointment (int id)
-    {
+    public void deleteAppointment (int id) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.delete(SQLITE_TABLE,
                 KEY_ROWID + "=?",

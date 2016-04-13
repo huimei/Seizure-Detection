@@ -44,8 +44,8 @@ public class ManageAppointment extends AppCompatActivity {
 
         //Hardcoded to display data (Should be remove before launching)
         dbHelper.deleteAll();
-        dbHelper.insertAppoinment("Dr Tim", 20160601, 1600, "Bring remainding medicine");
-        dbHelper.insertAppoinment("Dr Ling", 20160605, 1700, "Bring remainding medicine");
+        dbHelper.insertAppointment("Dr Tim", 20160601, 1600, "Bring remainding medicine");
+        dbHelper.insertAppointment("Dr Ling", 20160605, 1700, "Bring remainding medicine");
 
         //List View Declaration
         cursor = dbHelper.fetchAllAppointment();
@@ -85,7 +85,7 @@ public class ManageAppointment extends AppCompatActivity {
 
     public void deleteData(){
 
-        ID = cursor.getInt(cursor.getColumnIndex(DB_Medication.KEY_ROWID));
+        ID = cursor.getInt(cursor.getColumnIndex(DB_Appointment.KEY_ROWID));
         drName = cursor.getString(cursor.getColumnIndex(DB_Appointment.KEY_DRNAME));
         app_date = cursor.getString(cursor.getColumnIndex(DB_Appointment.KEY_DATE));
         app_time = cursor.getString(cursor.getColumnIndex(DB_Appointment.KEY_TIME));
@@ -110,7 +110,7 @@ public class ManageAppointment extends AppCompatActivity {
         ViewGroup.LayoutParams dialogTxtDate_LayoutParams = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialogTxtDate.setLayoutParams(dialogTxtDate_LayoutParams);
-        dialogTxtDate.setText("Time: " + String.valueOf(app_date));
+        dialogTxtDate.setText("Date: " + String.valueOf(app_date));
 
         TextView dialogTxtTime = new TextView(ManageAppointment.this);
         ViewGroup.LayoutParams dialogTxtTime_LayoutParams = new ViewGroup.LayoutParams(
@@ -189,6 +189,4 @@ public class ManageAppointment extends AppCompatActivity {
     private void updateList(){
         cursor.requery();
     }
-
-
 }

@@ -264,7 +264,7 @@ public class AddAppointment extends AppCompatActivity {
             addDialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 // do something when the button is clicked
                 public void onClick(DialogInterface arg0, int arg1) {
-                    dbHelper.insertAppoinment(itemDrName, itemDate, itemTime, itemComment);
+                    dbHelper.insertAppointment(itemDrName, itemDate, itemTime, itemComment);
                     if (dbHelper.numberOfRows()>numberofRow){
                         //Show Text on Screen
                         Context context = getApplicationContext();
