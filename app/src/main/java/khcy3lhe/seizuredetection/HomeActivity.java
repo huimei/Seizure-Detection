@@ -32,4 +32,9 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(HomeActivity.this, ManageHistory.class);
         startActivity(intent);
     }
+
+    public void ScanActivity (View view) {
+        Intent intent = new Intent(HomeActivity.this, ScanActivity.class);
+        startActivity(intent);
+    }
 }

@@ -2,6 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="khcy3lhe.seizuredetection">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- android.permission.INTERNET is needed for the simulator -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <receiver android:name=".OnBootReceiverMedication">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+        </intent-filter>
+    </receiver>
+    <receiver android:name=".OnAlarmReceiverMedication" />
+
+    <service android:name=".ReminderServiceMedication" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -96,18 +114,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="khcy3lhe.seizuredetection.ManageHistory" />
         </activity>
+        <activity
+            android:name=".ScanActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="khcy3lhe.seizuredetection.HomeActivity" />
+        </activity>
 
+        <service
+            android:name="com.angel.sdk.BleController"
+            android:enabled="true" >
+        </service>
+
+        <activity
+            android:name="khcy3lhe.seizuredetection.AngelHome"
+            android:label="@string/title_activity_home" >
+        </activity>
     </application>
-
-    <receiver android:name=".OnBootReceiverMedication">
-        <intent-filter>
-            <action android:name="android.intent.action.BOOT_COMPLETED" />
-        </intent-filter>
-    </receiver>
-    <receiver android:name=".OnAlarmReceiverMedication" />
-    <service android:name=".ReminderServiceMedication" />
-
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 </manifest>

@@ -106,5 +106,17 @@
         android:onClick="AddSeizure"
         android:backgroundTint="#3888b3" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Angel Sensor"
+        android:id="@+id/buttonAngelSensor"
+        android:layout_alignBottom="@+id/addNew_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:onClick="ScanActivity"
+        android:backgroundTint="#3888b3"/>
+
 
 </RelativeLayout>
