@@ -92,8 +92,7 @@ public class AddMedication extends AppCompatActivity {
     }
 
     //Return to Parent Page
-    public void ManageMedicationAlert(View view)
-    {
+    public void ManageMedicationAlert(View view) {
         Intent intent = new Intent(AddMedication.this, ManageMedicatonAlert.class);
         startActivity(intent);
     }

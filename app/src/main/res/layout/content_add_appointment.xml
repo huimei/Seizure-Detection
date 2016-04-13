@@ -12,4 +12,119 @@
     tools:context="khcy3lhe.seizuredetection.AddAppointment"
     tools:showIn="@layout/activity_add_appointment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Doctor:"
+        android:id="@+id/addDoctor"
+        android:layout_marginBottom="50dp"
+        android:layout_above="@+id/addAppDate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Date:"
+        android:id="@+id/addAppDate"
+        android:layout_marginBottom="50dp"
+        android:layout_above="@+id/addAppTime"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Time:"
+        android:id="@+id/addAppTime"
+        android:layout_marginBottom="186dp"
+        android:layout_above="@+id/cancelButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Comments:"
+        android:id="@+id/addAppComment"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/fillAppTime"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fillDrName"
+        android:layout_alignTop="@+id/addDoctor"
+        android:layout_alignRight="@+id/fillAppDate"
+        android:layout_alignEnd="@+id/fillAppDate"
+        android:layout_alignLeft="@+id/fillAppDate"
+        android:layout_alignStart="@+id/fillAppDate" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/fillAppDate"
+        android:clickable="true"
+        android:focusable="false"
+        android:onClick="showDatePickerDialog"
+        android:layout_alignTop="@+id/addAppDate"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/fillAppTime"
+        android:layout_alignTop="@+id/addAppTime"
+        android:layout_alignRight="@+id/fillAppDate"
+        android:layout_alignEnd="@+id/fillAppDate"
+        android:clickable="true"
+        android:focusable="false"
+        android:onClick="showTimePickerDialog"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/fillAppComment"
+        android:layout_alignTop="@+id/addAppComment"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/saveButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/fillAppTime"
+        android:layout_alignEnd="@+id/fillAppTime"
+        android:layout_marginBottom="66dp"
+        android:clickable="true"
+        android:onClick="addData"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:id="@+id/cancelButton"
+        android:layout_alignBottom="@+id/saveButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:onClick="ManageAppointment"/>
+
+
 </RelativeLayout>
