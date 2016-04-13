@@ -78,6 +78,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="khcy3lhe.seizuredetection.ManageAppointment" />
         </activity>
+        <activity
+            android:name=".ManageHistory"
+            android:label="@string/title_activity_manage_history"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="khcy3lhe.seizuredetection.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

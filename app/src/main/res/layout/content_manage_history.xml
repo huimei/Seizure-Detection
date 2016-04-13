@@ -9,18 +9,18 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="khcy3lhe.seizuredetection.ManageAppointment"
-    tools:showIn="@layout/activity_manage_appointment">
+    tools:context="khcy3lhe.seizuredetection.ManageHistory"
+    tools:showIn="@layout/activity_manage_history">
 
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/appointmentList"
+        android:id="@+id/historyList"
         android:choiceMode="singleChoice"
         android:divider="#000000"
         android:dividerHeight="2px"
         android:listSelector="#4e5555"
-        android:layout_below="@+id/appointmentDelete_button"
+        android:layout_below="@+id/historyDelete_button"
         android:clickable="true"
         android:focusable="true"
         android:layout_alignParentRight="true"
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete"
-        android:id="@+id/appointmentDelete_button"
+        android:id="@+id/historyDelete_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -43,10 +43,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/addNew"
-        android:id="@+id/appointmentAddNew_button"
+        android:id="@+id/historyAddNew_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:clickable="true"
-        android:onClick="AddAppointment"/>
+        android:onClick="AddSeizure"/>
 </RelativeLayout>

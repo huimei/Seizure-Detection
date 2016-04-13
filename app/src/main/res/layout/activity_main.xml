@@ -90,7 +90,7 @@
         android:layout_alignRight="@+id/manage_button"
         android:layout_alignEnd="@+id/manage_button"
         android:clickable="true"
-        android:onClick=""
+        android:onClick="ManageHistory"
         android:backgroundTint="#3888b3" />
 
     <ImageButton

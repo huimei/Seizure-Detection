@@ -27,4 +27,9 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(HomeActivity.this, ManagePage.class);
         startActivity(intent);
     }
+
+    public void ManageHistory(View view) {
+        Intent intent = new Intent(HomeActivity.this, ManageHistory.class);
+        startActivity(intent);
+    }
 }
