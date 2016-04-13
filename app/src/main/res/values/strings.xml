@@ -108,5 +108,6 @@
         <item>Med C</item>
     </string-array>
     <string name="title_activity_manage_appointment">Manage Appointment</string>
+    <string name="title_activity_add_appointment">Add New Appointment</string>
 
 </resources>

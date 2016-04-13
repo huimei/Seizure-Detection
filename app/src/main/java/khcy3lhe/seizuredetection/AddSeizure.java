@@ -279,11 +279,11 @@ public class AddSeizure extends AppCompatActivity{
                 stringDay = "0" + Integer.toString(day);
             }
 
-            String tmp = Integer.toString(year) + stringMonth + stringDay;
-            itemDate = Integer.parseInt(tmp);
-
             // Do something with the date chosen by the user
             DateEdit.setText(stringDay + "/" + stringMonth + "/" + year);
+
+            String tmp = Integer.toString(year) + stringMonth + stringDay;
+            itemDate = Integer.parseInt(tmp);
         }
     }
 
@@ -318,11 +318,11 @@ public class AddSeizure extends AppCompatActivity{
                 stringMinute = "0" + Integer.toString(minute);
             }
 
-            String tmp = stringHour + stringMinute;
-            itemTime = Integer.parseInt(tmp);
-
             // Do something with the time chosen by the user
             TimeEdit.setText(stringHour + ":" + stringMinute);
+
+            String tmp = stringHour + stringMinute;
+            itemTime = Integer.parseInt(tmp);
         }
     }
 

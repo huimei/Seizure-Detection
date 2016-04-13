@@ -69,6 +69,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="khcy3lhe.seizuredetection.ManagePage" />
         </activity>
+        <activity
+            android:name=".AddAppointment"
+            android:label="@string/title_activity_add_appointment"
+            android:parentActivityName=".ManageAppointment"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="khcy3lhe.seizuredetection.ManageAppointment" />
+        </activity>
     </application>
 
 </manifest>

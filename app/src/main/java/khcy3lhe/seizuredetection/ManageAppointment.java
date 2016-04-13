@@ -2,6 +2,7 @@ package khcy3lhe.seizuredetection;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -75,6 +76,11 @@ public class ManageAppointment extends AppCompatActivity {
                 deleteData();
             }
         });
+    }
+
+    public void AddAppointment(View view) {
+        Intent intent = new Intent(ManageAppointment.this, AddAppointment.class);
+        startActivity(intent);
     }
 
     public void deleteData(){
