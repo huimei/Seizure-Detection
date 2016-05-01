@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -33,9 +34,10 @@ public class AddMedication extends AppCompatActivity {
     static EditText TimeEdit;
     static Spinner spinnerMedicationName;
     static Button save;
-    static int TIME;
+    static String TIME;
     static String NAME;
     static int numberofRow;
+    private static Calendar c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +112,7 @@ public class AddMedication extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
             // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
+            c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
 
@@ -120,31 +122,21 @@ public class AddMedication extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hour, int minute) {
-            String stringHour;
-            String stringMinute;
 
-            if (hour>=10){
-                stringHour = Integer.toString(hour);
-            }else {
-                stringHour = "0" + Integer.toString(hour);
-            }
-            if (minute>=10){
-                stringMinute = Integer.toString(minute);
-            }else {
-                stringMinute = "0" + Integer.toString(minute);
-            }
+            c.set(Calendar.HOUR_OF_DAY, hour);
+            c.set(Calendar.MINUTE, minute);
 
             // Do something with the time chosen by the user
-            TimeEdit.setText(stringHour + ":" + stringMinute);
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm");
+            TIME = dateTimeFormat.format(c.getTime());
 
-            String tmp = stringHour + stringMinute;
-            TIME = Integer.parseInt(tmp);
+            TimeEdit.setText(TIME);
         }
     }
 
     public void addData() {
 
-        if (NAME==null || TIME==0){
+        if (NAME==null || TIME==null){
             //Alert Dialog for Warning
             AlertDialog.Builder warningDialog = new AlertDialog.Builder(AddMedication.this);
             warningDialog.setTitle("Warning!");
@@ -188,7 +180,7 @@ public class AddMedication extends AppCompatActivity {
             ViewGroup.LayoutParams dialogTxtTime_LayoutParams = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialogTxtTime.setLayoutParams(dialogTxtTime_LayoutParams);
-            dialogTxtTime.setText("Time: " + Integer.toString(TIME));
+            dialogTxtTime.setText("Time: " + TIME);
 
             LinearLayout layout = new LinearLayout(AddMedication.this);
             layout.setOrientation(LinearLayout.VERTICAL);

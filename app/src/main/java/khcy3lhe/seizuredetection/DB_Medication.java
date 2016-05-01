@@ -49,7 +49,7 @@ public class DB_Medication {
         return numRows;
     }
 
-    public boolean insertMedication  (String medicationName, int medicationTime) {
+    public boolean insertMedication  (String medicationName, String medicationTime) {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -77,6 +77,18 @@ public class DB_Medication {
             mCursor.moveToFirst();
         }
         return mCursor;
+    }
+
+    public Cursor fetchMedication(long rowId) throws SQLException {
+
+        Cursor mCursor = mDb.query(true, SQLITE_TABLE, new String[] {KEY_ROWID,
+                                KEY_MEDICATION, KEY_TIME}, KEY_ROWID + "=" + rowId, null, null, null, null, null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+
     }
 
     public void deleteAll (){

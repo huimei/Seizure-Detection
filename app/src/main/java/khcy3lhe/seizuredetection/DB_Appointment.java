@@ -47,7 +47,7 @@ public class DB_Appointment {
         return numRows;
     }
 
-    public boolean insertAppointment  (String drName, int appointmentDate, int appointmentTime, String comment) {
+    public boolean insertAppointment  (String drName, String appointmentDate, String appointmentTime, String comment) {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

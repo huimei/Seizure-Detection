@@ -40,7 +40,7 @@ public class OnBootReceiverMedication extends BroadcastReceiver {
                 String time = cursor.getString(timeColumnIndex);
 
                 Calendar cal = Calendar.getInstance();
-                SimpleDateFormat timeFormat = new SimpleDateFormat("HHmm");
+                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
                 try {
                     java.util.Date date = timeFormat.parse(time);

@@ -9,7 +9,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "SeizureDetection";
     //Increase database version whenever new table made
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     private static final String SQLITE_TABLE_Medication = "Medication";
     public static final String KEY_ROWID_MEDICATION = "_id";
@@ -20,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "CREATE TABLE if not exists " + SQLITE_TABLE_Medication + " (" +
                     KEY_ROWID_MEDICATION + " integer PRIMARY KEY autoincrement," +
                     KEY_MEDICATION + " varchar," +
-                    KEY_TIME + " integer)" ;
+                    KEY_TIME + " text)" ;
 
     private static final String SQLITE_TABLE_Seizure = "Seizure";
     public static final String KEY_ROWID_SEIZURE = "_id";
@@ -41,8 +41,8 @@ public class DBHelper extends SQLiteOpenHelper {
             "CREATE TABLE if not exists " + SQLITE_TABLE_Seizure + " (" +
                     KEY_ROWID_SEIZURE + " integer PRIMARY KEY autoincrement," +
                     KEY_SEIZURE + " varchar," +
-                    KEY_DATE + " integer," +
-                    KEY_STARTTIME + " integer," +
+                    KEY_DATE + " text," +
+                    KEY_STARTTIME + " text," +
                     KEY_DURATION + " integer," +
                     KEY_PREICTAL + " varchar," +
                     KEY_POSTICTAL + " varchar," +
@@ -63,8 +63,8 @@ public class DBHelper extends SQLiteOpenHelper {
             "CREATE TABLE if not exists " + SQLITE_TABLE_Appointment + " (" +
                     KEY_ROWID_APP + " integer PRIMARY KEY autoincrement," +
                     KEY_DRNAME + " varchar," +
-                    KEY_DATE_APP + " integer," +
-                    KEY_TIME_APP + " integer," +
+                    KEY_DATE_APP + " text," +
+                    KEY_TIME_APP + " text," +
                     KEY_COMMENT_APP + " text)";
 
 

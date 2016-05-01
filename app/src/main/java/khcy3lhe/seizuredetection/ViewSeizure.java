@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,8 +56,8 @@ public class ViewSeizure extends AppCompatActivity {
     static Button saveButton;
 
     static String itemSeizure;
-    static int itemDate;
-    static int itemTime;
+    static String itemDate;
+    static String itemTime;
     static String itemDuration;
     static String itemPreictal;
     static String itemPostictal;
@@ -65,6 +66,9 @@ public class ViewSeizure extends AppCompatActivity {
     static int itemMedicated;
     static String itemVideo;
     static String itemComments;
+
+    private static Calendar c;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +84,19 @@ public class ViewSeizure extends AppCompatActivity {
         ID = ManageHistory.ID;
         cursor = dbHelper.fetchSeizure(ID);
 
+        //Show Text on Screen
+        Context context = getApplicationContext();
+        CharSequence text = "ID gotten: "+ID;
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+
+        toast.show();
+
         if (cursor!=null && cursor.moveToFirst()){
             //Assign selected data to each item
             itemSeizure = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_SEIZURE));
-            itemDate = cursor.getInt(cursor.getColumnIndex(DB_Seizure.KEY_DATE));
-            itemTime = cursor.getInt(cursor.getColumnIndex(DB_Seizure.KEY_STARTTIME));
+            itemDate = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_DATE));
+            itemTime = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_STARTTIME));
             itemDuration = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_DURATION));
             itemPreictal = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_PREICTAL));
             itemPostictal = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_POSTICTAL));
@@ -276,7 +288,7 @@ public class ViewSeizure extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
             // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
+            c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
@@ -290,25 +302,16 @@ public class ViewSeizure extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
-            String stringMonth;
-            String stringDay;
+            // Do something with the time chosen by the user
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, month);
+            c.set(Calendar.DAY_OF_MONTH, day);
 
-            if (month>=10){
-                stringMonth = Integer.toString(month+1);
-            } else{
-                stringMonth = "0" + Integer.toString(month+1);
-            }
-            if (day>=10){
-                stringDay = Integer.toString(day);
-            } else{
-                stringDay = "0" + Integer.toString(day);
-            }
+            // Do something with the time chosen by the user
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy");
+            itemDate = dateTimeFormat.format(c.getTime());
 
-            // Do something with the date chosen by the user
-            DateEdit.setText(stringDay + "/" + stringMonth + "/" + year);
-
-            String tmp = Integer.toString(year) + stringMonth + stringDay;
-            itemDate = Integer.parseInt(tmp);
+            DateEdit.setText(itemDate);
         }
     }
 
@@ -329,31 +332,21 @@ public class ViewSeizure extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hour, int minute) {
-            String stringHour;
-            String stringMinute;
-
-            if (hour>=10){
-                stringHour = Integer.toString(hour);
-            }else {
-                stringHour = "0" + Integer.toString(hour);
-            }
-            if (minute>=10){
-                stringMinute = Integer.toString(minute);
-            }else {
-                stringMinute = "0" + Integer.toString(minute);
-            }
+            // Do something with the time chosen by the user
+            c.set(Calendar.HOUR_OF_DAY, hour);
+            c.set(Calendar.MINUTE, minute);
 
             // Do something with the time chosen by the user
-            TimeEdit.setText(stringHour + ":" + stringMinute);
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm");
+            itemTime = dateTimeFormat.format(c.getTime());
 
-            String tmp = stringHour + stringMinute;
-            itemTime = Integer.parseInt(tmp);
+            TimeEdit.setText(itemTime);
         }
     }
 
     public void addData() {
 
-        if (itemDate==0 || itemTime==0){
+        if (itemDate==null || itemTime==null){
             //Alert Dialog for Warning
             AlertDialog.Builder warningDialog = new AlertDialog.Builder(ViewSeizure.this);
             warningDialog.setTitle("Warning!");

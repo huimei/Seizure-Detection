@@ -42,11 +42,6 @@ public class ManageHistory extends AppCompatActivity {
         dbHelper = new DB_Seizure(this);
         dbHelper.open();
 
-        //Hardcoded to display data (Should be remove before launching)
-        dbHelper.deleteAll();
-        dbHelper.insertSeizure("Unknown", 20160601, 1600, null, null, null, null, null, 0, null, null);
-        dbHelper.insertSeizure("Unknown", 20160701, 1200, null, null, null, null, null, 0, null, null);
-
         //List View Declaration
         cursor = dbHelper.fetchAllSeizure();
         listView = (ListView) findViewById(R.id.historyList);
@@ -77,7 +72,10 @@ public class ManageHistory extends AppCompatActivity {
                 // Get the cursor, positioned to the corresponding row in the result set
                 cursor = (Cursor) listView.getItemAtPosition(position);
 
+                ID = cursor.getInt(cursor.getColumnIndex(DB_Seizure.KEY_ROWID));
+
                 Intent intent = new Intent(ManageHistory.this, ViewSeizure.class);
+
                 startActivity(intent);
 
                  return true;

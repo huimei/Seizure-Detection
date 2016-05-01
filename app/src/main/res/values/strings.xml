@@ -123,5 +123,9 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="scan_welcome">Welcome to Angel Sensor! Please press Angel\'s button once to re-activate Bluetooth and tap SCAN."</string>
 
+    <!-- Notification Bar -->
+    <string name="notify_new_task_message">A task needs to be reviewed!</string>
+    <string name="notify_new_task_title">Task Reminder!</string>
+
 
 </resources>

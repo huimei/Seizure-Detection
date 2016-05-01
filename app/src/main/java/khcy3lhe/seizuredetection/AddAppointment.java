@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,11 +37,12 @@ public class AddAppointment extends AppCompatActivity {
     static EditText CommentEdit;
     static Button save;
     static String itemDrName;
-    static int itemDate;
-    static int itemTime;
+    static String itemDate;
+    static String itemTime;
     static String itemComment;
 
     static int numberofRow;
+    private static Calendar c;
 
 
 
@@ -59,7 +61,6 @@ public class AddAppointment extends AppCompatActivity {
 
         //Doctor's name
         DrName = (EditText) findViewById(R.id.fillDrName);
-        itemDrName = DrName.getText().toString();
 
         //Date
         DateEdit = (EditText) findViewById(R.id.fillAppDate);
@@ -81,7 +82,6 @@ public class AddAppointment extends AppCompatActivity {
 
         //Comment
         CommentEdit = (EditText) findViewById(R.id.fillAppComment);
-        itemComment = CommentEdit.getText().toString();
 
         //Save Button Action
         save = (Button) findViewById(R.id.saveButton);
@@ -117,7 +117,7 @@ public class AddAppointment extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
             // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
+            c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
@@ -131,25 +131,16 @@ public class AddAppointment extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
 
-            String stringMonth;
-            String stringDay;
+            // Do something with the time chosen by the user
+            c.set(Calendar.YEAR, year);
+            c.set(Calendar.MONTH, month);
+            c.set(Calendar.DAY_OF_MONTH, day);
 
-            if (month>=10){
-                stringMonth = Integer.toString(month+1);
-            } else{
-                stringMonth = "0" + Integer.toString(month+1);
-            }
-            if (day>=10){
-                stringDay = Integer.toString(day);
-            } else{
-                stringDay = "0" + Integer.toString(day);
-            }
+            // Do something with the time chosen by the user
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy/MM/dd");
+            itemDate = dateTimeFormat.format(c.getTime());
 
-            // Do something with the date chosen by the user
-            DateEdit.setText(stringDay + "/" + stringMonth + "/" + year);
-
-            String tmp = Integer.toString(year) + stringMonth + stringDay;
-            itemDate = Integer.parseInt(tmp);
+            DateEdit.setText(itemDate);
         }
     }
 
@@ -160,7 +151,7 @@ public class AddAppointment extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
 
             // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
+            c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
 
@@ -170,31 +161,25 @@ public class AddAppointment extends AppCompatActivity {
 
         @Override
         public void onTimeSet(TimePicker view, int hour, int minute) {
-            String stringHour;
-            String stringMinute;
-
-            if (hour>=10){
-                stringHour = Integer.toString(hour);
-            }else {
-                stringHour = "0" + Integer.toString(hour);
-            }
-            if (minute>=10){
-                stringMinute = Integer.toString(minute);
-            }else {
-                stringMinute = "0" + Integer.toString(minute);
-            }
 
             // Do something with the time chosen by the user
-            TimeEdit.setText(stringHour + ":" + stringMinute);
+            c.set(Calendar.HOUR_OF_DAY, hour);
+            c.set(Calendar.MINUTE, minute);
 
-            String tmp = stringHour + stringMinute;
-            itemTime = Integer.parseInt(tmp);
+            // Do something with the time chosen by the user
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm");
+            itemTime = dateTimeFormat.format(c.getTime());
+
+            TimeEdit.setText(itemTime);
         }
     }
 
     public void addData() {
 
-        if (itemDrName==null || itemDate==0 || itemTime==0){
+        itemDrName = DrName.getText().toString();
+        itemComment = CommentEdit.getText().toString();
+
+        if (itemDrName==null || itemDate==null || itemTime==null){
             //Alert Dialog for Warning
             AlertDialog.Builder warningDialog = new AlertDialog.Builder(AddAppointment.this);
             warningDialog.setTitle("Warning!");
@@ -238,13 +223,13 @@ public class AddAppointment extends AppCompatActivity {
             ViewGroup.LayoutParams dialogTxtDate_LayoutParams = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialogTxtDate.setLayoutParams(dialogTxtDate_LayoutParams);
-            dialogTxtDate.setText("Date: " + Integer.toString(itemDate));
+            dialogTxtDate.setText("Date: " + itemDate);
 
             TextView dialogTxtTime = new TextView(AddAppointment.this);
             ViewGroup.LayoutParams dialogTxtTime_LayoutParams = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialogTxtTime.setLayoutParams(dialogTxtTime_LayoutParams);
-            dialogTxtTime.setText("Time: " + Integer.toString(itemTime));
+            dialogTxtTime.setText("Time: " + itemTime);
 
             TextView dialogTxtComment = new TextView(AddAppointment.this);
             ViewGroup.LayoutParams dialogTxtComment_LayoutParams = new ViewGroup.LayoutParams(

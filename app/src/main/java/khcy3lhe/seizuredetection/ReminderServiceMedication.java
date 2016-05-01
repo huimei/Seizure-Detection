@@ -4,7 +4,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+
 
 public class ReminderServiceMedication extends WakeReminderIntentService {
 
@@ -24,15 +27,19 @@ public class ReminderServiceMedication extends WakeReminderIntentService {
 
         PendingIntent pi = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
-        /*Notification note=new Notification(android.R.drawable.stat_sys_warning, getString(R.string.notify_new_task_message), System.currentTimeMillis());
-        note.setLatestEventInfo(this, getString(R.string.notify_new_task_title), getString(R.string.notify_new_task_message), pi);
-        note.defaults |= Notification.DEFAULT_SOUND;
-        note.flags |= Notification.FLAG_AUTO_CANCEL;*/
+        NotificationCompat.Builder note = new NotificationCompat.Builder(this);
+        note.setTicker("Task Reminder!");
+        note.setContentTitle(getString(R.string.notify_new_task_title));
+        note.setContentText(getString(R.string.notify_new_task_message));
+        note.setSmallIcon(android.R.drawable.stat_sys_warning);
+        note.setContentIntent(pi);
+        note.setOngoing(true);
+        note.setDefaults(Notification.DEFAULT_SOUND);
 
         // An issue could occur if user ever enters over 2,147,483,647 tasks. (Max int value).
         // I highly doubt this will ever happen. But is good to note.
         int id = (int)((long)rowId);
-        //mgr.notify(id, note);
+        mgr.notify(id, note.build());
     }
 }
 

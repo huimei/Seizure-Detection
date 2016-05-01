@@ -42,11 +42,6 @@ public class ManageAppointment extends AppCompatActivity {
         dbHelper = new DB_Appointment(this);
         dbHelper.open();
 
-        //Hardcoded to display data (Should be remove before launching)
-        dbHelper.deleteAll();
-        dbHelper.insertAppointment("Dr Tim", 20160601, 1600, "Bring remainding medicine");
-        dbHelper.insertAppointment("Dr Ling", 20160605, 1700, "Bring remainding medicine");
-
         //List View Declaration
         cursor = dbHelper.fetchAllAppointment();
         listView = (ListView) findViewById(R.id.appointmentList);
