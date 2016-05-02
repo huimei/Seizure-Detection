@@ -58,8 +58,36 @@ import com.angel.sdk.SrvHeartRate;
 import com.angel.sdk.SrvWaveformSignal;
 
 import junit.framework.Assert;
+import java.util.*;
 
 public class AngelHome extends AppCompatActivity {
+
+    private static final int RSSI_UPDATE_INTERVAL = 1000; // Milliseconds
+    private static final int ANIMATION_DURATION = 500; // Milliseconds
+
+    private int orientation;
+
+    private GraphView mAccelerationWaveformView, mBlueOpticalWaveformView, mGreenOpticalWaveformView;
+
+    private BleDevice mBleDevice;
+    private String mBleDeviceAddress;
+
+    private Handler mHandler;
+    private Runnable mPeriodicReader;
+    private ChAccelerationEnergyMagnitude mChAccelerationEnergyMagnitude = null;
+
+    //My own implementation
+    static int heartRate;
+    static int magnitude;
+    static LinkedList<Integer> t1 = new LinkedList<>();
+    static LinkedList<Integer> t2 = new LinkedList<>();
+    int size1 = 20;
+    int size2 = 5;
+    int firstt2 = 0;
+    static int t1point = 0;
+    static int t2point = 0;
+    static int median1 = 0, median2 = 0;
+    static long mean1 = 0, mean2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +166,6 @@ public class AngelHome extends AppCompatActivity {
 
     }
 
-
     private void connect(String deviceAddress) {
         // A device has been chosen from the list. Create an instance of BleDevice,
         // populate it with interesting services and then connect
@@ -203,7 +230,6 @@ public class AngelHome extends AppCompatActivity {
             mChAccelerationEnergyMagnitude = device.getService(SrvActivityMonitoring.class).getChAccelerationEnergyMagnitude();
             Assert.assertNotNull(mChAccelerationEnergyMagnitude);
         }
-
 
         @Override
         public void onBluetoothDeviceDisconnected() {
@@ -282,8 +308,90 @@ public class AngelHome extends AppCompatActivity {
             };
 
     private void displayHeartRate(final int bpm) {
+
         TextView textView = (TextView)findViewById(R.id.textview_heart_rate);
         textView.setText(bpm + " bpm");
+
+        //Assign heart rate to value
+        heartRate = bpm;
+
+        //My own implementation starts here
+
+        //int interval = 0;
+        //int sampling = 100;
+        //BPM = (sampling rate / peak interval) * 60
+        //Hence peak interval = (sampling rate / BPM) * 60
+        //Given sampling rate is 100HZ
+        //interval = (sampling / heartRate) * 60;
+
+        if (t2point < size2){
+            t2.add(heartRate);
+            t2point++;
+        }else{
+            int v1 = t2.get(0);
+            int v2 = t2.get(1);
+            int v3 = t2.get(2);
+            int v4 = t2.get(3);
+            int v5 = t2.get(4);
+
+            //Calculation for median
+            median2 = v3;
+
+            //Calculation for mean
+            mean2 = (v1 + v2 + v3 + v4 + v5) / size2;
+
+            firstt2 = v1;
+
+            t2.removeFirst();
+            t2.add(heartRate);
+        }
+
+        if (t1point < size1){
+            t1.add(firstt2);
+            t1point++;
+        }else{
+            int v1 = t1.get(0);
+            int v2 = t1.get(1);
+            int v3 = t1.get(2);
+            int v4 = t1.get(3);
+            int v5 = t1.get(4);
+            int v6 = t1.get(5);
+            int v7 = t1.get(6);
+            int v8 = t1.get(7);
+            int v9 = t1.get(8);
+            int v10 = t1.get(9);
+            int v11 = t1.get(10);
+            int v12 = t1.get(11);
+            int v13 = t1.get(12);
+            int v14 = t1.get(13);
+            int v15 = t1.get(14);
+            int v16 = t1.get(15);
+            int v17 = t1.get(16);
+            int v18 = t1.get(17);
+            int v19 = t1.get(18);
+            int v20 = t1.get(19);
+
+            //Calculation for median
+            median1 = (v10 + v11) / 2;
+
+            //Calculation for mean
+            mean1 = (v1 + v2 + v3 + v4 + v5 + v6 + v7 + v8 + v9 + v10 +
+                    v11 + v12 + v13 + v14 + v15 + v16 + v17 + v18 + v19 + v20) / size1;
+
+            t1.removeFirst();
+            t1.add(firstt2);
+        }
+
+        int comparisonMedian = 0;
+        int comparisonMean = 0;
+        comparisonMedian = median2 - median1;
+        comparisonMean = (int) (mean2 - mean1);
+
+        if (comparisonMedian > 10){
+            //TODO
+        }
+
+        //My implementation ends here
 
         ScaleAnimation effect =  new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         effect.setDuration(ANIMATION_DURATION);
@@ -293,6 +401,7 @@ public class AngelHome extends AppCompatActivity {
         View heartView = findViewById(R.id.imageview_heart);
         heartView.startAnimation(effect);
     }
+
 
     private void displaySignalStrength(int db) {
         int iconId;
@@ -378,6 +487,9 @@ public class AngelHome extends AppCompatActivity {
         Assert.assertNotNull(textView);
         textView.setText(accelerationEnergyMagnitude + "g");
 
+        //Assign acceleration energy magnitude to value
+        magnitude = accelerationEnergyMagnitude;
+
         ScaleAnimation effect =  new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         effect.setDuration(ANIMATION_DURATION);
         effect.setRepeatMode(Animation.REVERSE);
@@ -400,18 +512,5 @@ public class AngelHome extends AppCompatActivity {
         mHandler.removeCallbacks(mPeriodicReader);
     }
 
-    private static final int RSSI_UPDATE_INTERVAL = 1000; // Milliseconds
-    private static final int ANIMATION_DURATION = 500; // Milliseconds
-
-    private int orientation;
-
-    private GraphView mAccelerationWaveformView, mBlueOpticalWaveformView, mGreenOpticalWaveformView;
-
-    private BleDevice mBleDevice;
-    private String mBleDeviceAddress;
-
-    private Handler mHandler;
-    private Runnable mPeriodicReader;
-    private ChAccelerationEnergyMagnitude mChAccelerationEnergyMagnitude = null;
 }
 

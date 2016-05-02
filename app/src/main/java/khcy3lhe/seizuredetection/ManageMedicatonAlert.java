@@ -40,10 +40,6 @@ public class ManageMedicatonAlert extends AppCompatActivity {
         dbHelper = new DB_Medication(this);
         dbHelper.open();
 
-        //Hardcoded to display data (Should be remove before launching)
-        /*dbHelper.deleteAll();
-        dbHelper.insertMedication("MedA", 1500);
-        dbHelper.insertMedication("MedB", 1845);*/
 
         //List View Declaration
         cursor = dbHelper.fetchAllMedication();
