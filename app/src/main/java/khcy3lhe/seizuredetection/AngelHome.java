@@ -31,6 +31,7 @@
 
 package khcy3lhe.seizuredetection;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -124,7 +125,8 @@ public class AngelHome extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         assert(extras != null);
-        mBleDeviceAddress = extras.getString("ble_device_address");
+        //mBleDeviceAddress = extras.getString("ble_device_address");
+        mBleDeviceAddress = "00:07:80:78:EA:EB";
 
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             connectGraphs(mBleDeviceAddress);
@@ -489,6 +491,12 @@ public class AngelHome extends AppCompatActivity {
 
         //Assign acceleration energy magnitude to value
         magnitude = accelerationEnergyMagnitude;
+
+        //My own implementation
+        if (magnitude > 3500000){
+            Intent intent = new Intent(AngelHome.this, AlarmSeizure.class);
+            startActivity(intent);
+        }
 
         ScaleAnimation effect =  new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         effect.setDuration(ANIMATION_DURATION);

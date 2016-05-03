@@ -199,7 +199,7 @@ public class ScanActivity extends Activity implements OnClickListener {
 
                 BluetoothDevice bluetoothDevice = mDeviceListAdapter.getItem(position).getBluetoothDevice();
                 Assert.assertTrue(bluetoothDevice != null);
-                Intent intent = new Intent(parent.getContext(), HomeActivity.class);
+                Intent intent = new Intent(parent.getContext(), AngelHome.class);
                 intent.putExtra("ble_device_address", bluetoothDevice.getAddress());
                 startActivity(intent);
             }

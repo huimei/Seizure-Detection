@@ -131,7 +131,7 @@
         </service>
 
         <activity
-            android:name="khcy3lhe.seizuredetection.AngelHome"
+            android:name=".AngelHome"
             android:label="@string/title_activity_home" >
         </activity>
     </application>

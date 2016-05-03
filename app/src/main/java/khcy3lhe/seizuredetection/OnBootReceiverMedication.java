@@ -46,7 +46,7 @@ public class OnBootReceiverMedication extends BroadcastReceiver {
                     java.util.Date date = timeFormat.parse(time);
                     cal.setTime(date);
 
-                    reminderMgr.setReminder(rowId, cal);
+                    //reminderMgr.setReminder(rowId, cal);
                 } catch (java.text.ParseException e) {
                     Log.e("OnBootReceiver", e.getMessage(), e);
                 }
