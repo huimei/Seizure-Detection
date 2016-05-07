@@ -60,8 +60,8 @@
         android:layout_below="@+id/recovery_button"
         android:layout_alignLeft="@+id/recovery_button"
         android:layout_alignStart="@+id/recovery_button"
-        android:layout_toLeftOf="@+id/addNew_button"
-        android:layout_toStartOf="@+id/addNew_button" />
+        android:layout_toStartOf="@+id/addNew_button"
+        android:layout_alignEnd="@+id/recovery_button" />
 
     <Button
         android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
         android:onClick="ManageHistory"
         android:backgroundTint="#3888b3" />
 
-    <ImageButton
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/addNew_button"
@@ -101,7 +101,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/add_new"
+        android:text="Add Seizure"
         android:clickable="true"
         android:onClick="AddSeizure"
         android:backgroundTint="#3888b3" />

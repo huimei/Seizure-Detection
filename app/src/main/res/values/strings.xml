@@ -126,6 +126,7 @@
     <!-- Notification Bar -->
     <string name="notify_new_task_message">A task needs to be reviewed!</string>
     <string name="notify_new_task_title">Task Reminder!</string>
+    <string name="history_info">Long press history to view/edit</string>
 
 
 </resources>

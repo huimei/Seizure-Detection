@@ -20,15 +20,17 @@
         android:divider="#000000"
         android:dividerHeight="2px"
         android:listSelector="#4e5555"
-        android:layout_below="@+id/historyDelete_button"
         android:clickable="true"
         android:focusable="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:longClickable="true"
-        android:stackFromBottom="true" />
+        android:stackFromBottom="true"
+        android:transcriptMode="normal"
+        android:layout_below="@+id/historyDelete_button"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="31dp"
+        android:smoothScrollbar="true"
+        android:scrollingCache="true"
+        android:scrollIndicators="top" />
 
     <Button
         android:layout_width="wrap_content"
@@ -51,4 +53,13 @@
         android:layout_alignParentEnd="true"
         android:clickable="true"
         android:onClick="AddSeizure"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/history_info"
+        android:id="@+id/info"
+        android:layout_below="@+id/historyDelete_button"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
