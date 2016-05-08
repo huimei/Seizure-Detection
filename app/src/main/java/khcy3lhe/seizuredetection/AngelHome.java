@@ -28,20 +28,11 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+/*
+ * Modified by Luen Hui Mei for G53IDS project only
+ */
 
 package khcy3lhe.seizuredetection;
-
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.angel.sdk.BleCharacteristic;
 import com.angel.sdk.BleDevice;
@@ -58,7 +49,19 @@ import com.angel.sdk.SrvHealthThermometer;
 import com.angel.sdk.SrvHeartRate;
 import com.angel.sdk.SrvWaveformSignal;
 
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 import junit.framework.Assert;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AngelHome extends AppCompatActivity {
@@ -78,8 +81,35 @@ public class AngelHome extends AppCompatActivity {
     private ChAccelerationEnergyMagnitude mChAccelerationEnergyMagnitude = null;
 
     //My own implementation
-    static int heartRate;
+    //Threshold
+    static int accThreshold = 3000000;
+    static int durationThreshold = 10;
+    static double heartRateThresholdMedian;
+    static double heartRateThresholdMean;
+
+    //Database
+    private DB_SeizureRecord dbHelper;
+    static int numberofRow;
+
+    //Detection record
     static int magnitude;
+    static int magnitudeStart = 0;
+    static int magnitudeEnd = 0;
+    static int heartRate;
+    static int heartRateStart = 0;
+    static int heartRateEnd = 0;
+    static int startFlag = 0;
+    static int fiveMinsFlag = 0;
+    static long startTime;
+    static long endTime;
+    static int duration;
+    static String dateStart;
+    static String timeStart;
+    static String durationRecorded;
+    static LinkedList<Integer> heartRecord = new LinkedList<>();
+    static LinkedList<Integer> accelerometerRecord = new LinkedList<>();
+
+    //Detection
     static LinkedList<Integer> t1 = new LinkedList<>();
     static LinkedList<Integer> t2 = new LinkedList<>();
     int size1 = 20;
@@ -93,6 +123,12 @@ public class AngelHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Run DB_Medication
+        dbHelper = new DB_SeizureRecord(this);
+        dbHelper.open();
+        numberofRow = dbHelper.numberOfRows();
+
         setContentView(R.layout.activity_measurements);
         orientation = getResources().getConfiguration().orientation;
 
@@ -384,15 +420,17 @@ public class AngelHome extends AppCompatActivity {
             t1.add(firstt2);
         }
 
-        int comparisonMedian = 0;
-        int comparisonMean = 0;
-        comparisonMedian = median2 - median1;
-        comparisonMean = (int) (mean2 - mean1);
+        double comparisonMedian;
+        double comparisonMean;
+        comparisonMedian = (median2 - median1) / median1;
+        comparisonMean = (mean2 - mean1) / mean1;
 
-        if (comparisonMedian > 10){
-            //TODO
+        if (comparisonMedian > 0.15){
+            heartRateThresholdMedian = comparisonMedian;
         }
-
+        if (comparisonMean > 0.15){
+            heartRateThresholdMean = comparisonMean;
+        }
         //My implementation ends here
 
         ScaleAnimation effect =  new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -493,10 +531,20 @@ public class AngelHome extends AppCompatActivity {
         magnitude = accelerationEnergyMagnitude;
 
         //My own implementation
-        if (magnitude > 3500000){
-            Intent intent = new Intent(AngelHome.this, AlarmSeizure.class);
-            startActivity(intent);
+        if (magnitude > accThreshold && startFlag == 0){
+            if (duration < 3){
+                Toast.makeText(this, "Potential Seizure Detected.", Toast.LENGTH_SHORT).show();
+                duration ++;
+            }else{
+                startDetectionAcc();
+            }
+        }else if(magnitude > accThreshold && startFlag == 1){
+            detectionAcc();
         }
+        if (magnitude < accThreshold && startFlag == 1){
+           endDetectionAcc();
+        }
+        //My own implementation ends here
 
         ScaleAnimation effect =  new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         effect.setDuration(ANIMATION_DURATION);
@@ -518,6 +566,107 @@ public class AngelHome extends AppCompatActivity {
 
     private void unscheduleUpdaters() {
         mHandler.removeCallbacks(mPeriodicReader);
+    }
+
+    public void startDetectionAcc(){
+        Toast.makeText(this, "Seizure Detected.", Toast.LENGTH_SHORT).show();
+
+        //Get date and time
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat tf = new SimpleDateFormat("HH:mm");
+        dateStart = df.format(c.getTime());
+        timeStart = tf.format(c.getTime());
+        startTime = System.currentTimeMillis();
+
+        //Record starting magnitude
+        magnitudeStart = magnitude;
+        accelerometerRecord.add(magnitudeStart);
+
+        //Record starting heart rate
+        heartRateStart = heartRate;
+        heartRecord.add(heartRateStart);
+
+        //Set flag to true
+        startFlag = 1;
+    }
+    public void detectionAcc() {
+        duration ++;
+        accelerometerRecord.add(magnitude);
+        heartRecord.add(heartRate);
+
+        //Detect if seizure is longer than 5 minutes (used 5sec for testing purpose
+        if (duration >= durationThreshold && fiveMinsFlag == 0){
+            Toast.makeText(this, "Seizure Longer than 5mins.", Toast.LENGTH_SHORT).show();
+            fiveMinsFlag = 1;
+        }
+    }
+    public void endDetectionAcc(){
+        Toast.makeText(this, "Seizure Ended.", Toast.LENGTH_SHORT).show();
+
+        //Get time
+        endTime = System.currentTimeMillis();
+
+        //Record ending magnitude
+        magnitudeEnd = magnitude;
+        accelerometerRecord.add(magnitudeEnd);
+
+        //Record ending hear rate
+        heartRateEnd = heartRate;
+        heartRecord.add(heartRateEnd);
+
+        //Calculate duration
+        long diff = (endTime - startTime)/1000;
+        long minute = diff / 60;
+        long second = diff % 60;
+        durationRecorded = Long.toString(minute)+"."+Long.toString(second);
+
+        //Convert recorded magnitude into String
+        int size = accelerometerRecord.size();
+        String acc = null;
+
+        for (int i = 0; i < size; i++){
+            acc = Integer.toString(accelerometerRecord.get(i)) + " ";
+        }
+
+        //Convert recorded heart rate into String
+        int size1 = accelerometerRecord.size();
+        String heart = null;
+
+        for (int i = 0; i < size1; i++){
+            heart = Integer.toString(heartRecord.get(i)) + " ";
+        }
+
+        //Insert data to seizure record
+        dbHelper.insertSeizureRecord(dateStart, timeStart, durationRecorded, heartRateStart, heartRateEnd, heart,
+                                    magnitudeStart, magnitudeEnd, acc, 0);
+
+        //Insert data to seizure for user to fill in details
+        DB_Seizure dbSeizure = new DB_Seizure(this);
+        int number;
+
+        dbSeizure.open();
+        number = dbSeizure.numberOfRows();
+        dbSeizure.insertSeizure(null, dateStart, timeStart, durationRecorded, null, null, null, null, 0, null, null);
+
+        //Check if database updated correctly
+        if (dbHelper.numberOfRows()>numberofRow && dbSeizure.numberOfRows()>number){
+            //Show Text on Screen
+            Toast.makeText(this, "Seizure Recorded", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Seizure Record Fail", Toast.LENGTH_SHORT).show();
+        }
+
+        //Set all back to default
+        startFlag = 0;
+        fiveMinsFlag = 0;
+        magnitudeStart = 0;
+        magnitudeEnd = 0;
+        heartRateStart = 0;
+        heartRateEnd = 0;
+        duration = 0;
+        heartRecord.clear();
+        accelerometerRecord.clear();
     }
 
 }

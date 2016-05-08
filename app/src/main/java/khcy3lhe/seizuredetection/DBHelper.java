@@ -8,9 +8,11 @@ import android.util.Log;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "SeizureDetection";
-    //Increase database version whenever new table made
-    private static final int DATABASE_VERSION = 4;
 
+    //Increase database version whenever new table made
+    private static final int DATABASE_VERSION = 5;
+
+    //Database for Medication Reminder
     private static final String SQLITE_TABLE_Medication = "Medication";
     public static final String KEY_ROWID_MEDICATION = "_id";
     public static final String KEY_MEDICATION = "medication";
@@ -22,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_MEDICATION + " varchar," +
                     KEY_TIME + " text)" ;
 
+    //Database for seizure record
     private static final String SQLITE_TABLE_Seizure = "Seizure";
     public static final String KEY_ROWID_SEIZURE = "_id";
     public static final String KEY_SEIZURE = "seizureType";
@@ -52,6 +55,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_VIDEO + " varchar," +
                     KEY_COMMENTS + " varchar)";
 
+    //Database for appoinment
     private static final String SQLITE_TABLE_Appointment = "Appointment";
     public static final String KEY_ROWID_APP = "_id";
     public static final String KEY_DRNAME = "drname";
@@ -67,6 +71,35 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_TIME_APP + " text," +
                     KEY_COMMENT_APP + " text)";
 
+    //Database for Seizure record from sensor
+    private static final String SQLITE_TABLE_SeizureRecord = "SeizureRecord";
+    public static final String KEY_ROWID_SEIZURERECORD = "_id";
+    public static final String KEY_DATE_RECORD = "date";
+    public static final String KEY_STARTTIME_RECORD = "startTime";
+    public static final String KEY_DURATION_RECORD = "duration";
+    public static final String KEY_STARTHEART = "startHeart";
+    public static final String KEY_ENDHEART = "endHeart";
+    public static final String KEY_DURATIONHEART = "durationHeart";
+    public static final String KEY_STARTAcc = "startAcc";
+    public static final String KEY_ENDAcc = "endAcc";
+    public static final String KEY_DURATIONAcc = "durationAcc";
+    public static final String KEY_FALSEALARM = "falseAlarm";
+
+    private static final String TAG_SeizureRecord = "DB_SeizureRecord";
+
+    private static final String DATABASE_CREATE_SeizureRecord =
+            "CREATE TABLE if not exists " + SQLITE_TABLE_SeizureRecord + " (" +
+                    KEY_ROWID_SEIZURERECORD + " integer PRIMARY KEY autoincrement," +
+                    KEY_DATE_RECORD + " text," +
+                    KEY_STARTTIME_RECORD + " text," +
+                    KEY_DURATION_RECORD + " integer," +
+                    KEY_STARTHEART + " varchar," +
+                    KEY_ENDHEART + " varchar," +
+                    KEY_DURATIONHEART + " varchar," +
+                    KEY_STARTAcc + " varchar," +
+                    KEY_ENDAcc + " varchar," +
+                    KEY_DURATIONAcc + " varchar," +
+                    KEY_FALSEALARM + " integer)";
 
 
     DBHelper(Context context) {
@@ -78,6 +111,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DATABASE_CREATE_Medication);
         db.execSQL(DATABASE_CREATE_Seizure);
         db.execSQL(DATABASE_CREATE_Appointment);
+        db.execSQL(DATABASE_CREATE_SeizureRecord);
     }
 
     @Override
@@ -87,6 +121,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_Medication);
         db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_Seizure);
         db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_Appointment);
+        db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_SeizureRecord);
         onCreate(db);
     }
 
