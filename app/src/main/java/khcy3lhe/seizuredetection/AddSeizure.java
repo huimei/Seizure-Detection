@@ -425,6 +425,16 @@ public class AddSeizure extends AppCompatActivity{
     public void onDestroy(){
         super.onDestroy();
         dbHelper.close();
+        itemSeizure = null;
+        itemDate = null;
+        itemTime = null;
+        itemDuration = null;
+        itemPreictal = null;
+        itemPostictal = null;
+        itemTrigger = null;
+        itemSleep = null;
+        itemMedicated = 0;
+        itemComments  = null;
     }
 
     @Override

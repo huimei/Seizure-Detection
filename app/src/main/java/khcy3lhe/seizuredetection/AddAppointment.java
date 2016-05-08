@@ -292,6 +292,11 @@ public class AddAppointment extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         dbHelper.close();
+
+        itemDrName = null;
+        itemDate = null;
+        itemTime = null;
+        itemComment = null;
     }
 
     @Override

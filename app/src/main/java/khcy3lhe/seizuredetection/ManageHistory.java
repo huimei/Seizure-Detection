@@ -100,6 +100,8 @@ public class ManageHistory extends AppCompatActivity {
     public void AddSeizure(View view) {
         Intent intent = new Intent(ManageHistory.this, AddSeizure.class);
         startActivity(intent);
+
+        finish();
     }
 
     public void deleteData(){

@@ -228,5 +228,7 @@ public class ManagePersonalDetails extends AppCompatActivity {
     public void ManagePage(View view) {
         Intent intent = new Intent(ManagePersonalDetails.this, ManagePage.class);
         startActivity(intent);
+
+        finish();
     }
 }

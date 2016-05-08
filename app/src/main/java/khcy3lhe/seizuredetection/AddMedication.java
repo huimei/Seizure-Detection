@@ -235,6 +235,8 @@ public class AddMedication extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         dbHelper.close();
+        TIME = null;
+        NAME = null;
     }
 
     @Override

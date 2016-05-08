@@ -76,6 +76,8 @@ public class ManageMedicatonAlert extends AppCompatActivity {
     {
         Intent intent = new Intent(ManageMedicatonAlert.this, AddMedication.class);
         startActivity(intent);
+
+        finish();
     }
 
     public void deleteData(){

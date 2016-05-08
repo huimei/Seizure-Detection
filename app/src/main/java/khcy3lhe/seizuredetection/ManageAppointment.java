@@ -76,6 +76,8 @@ public class ManageAppointment extends AppCompatActivity {
     public void AddAppointment(View view) {
         Intent intent = new Intent(ManageAppointment.this, AddAppointment.class);
         startActivity(intent);
+
+        finish();
     }
 
     public void deleteData(){
