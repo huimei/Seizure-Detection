@@ -202,6 +202,8 @@ public class ManagePersonalDetails extends AppCompatActivity {
                         Intent intent = new Intent(ManagePersonalDetails.this, ManagePage.class);
                         startActivity(intent);
 
+                        finish();
+
                     } catch (SQLException e){
                         Context context1 = getApplicationContext();
                         CharSequence text1 = "Data couldn't be save";

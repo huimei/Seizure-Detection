@@ -265,6 +265,8 @@ public class AddAppointment extends AppCompatActivity {
                         //Return to Parent Page
                         Intent intent = new Intent(AddAppointment.this, ManageAppointment.class);
                         startActivity(intent);
+
+                        finish();
                     }else{
                         Context context1 = getApplicationContext();
                         CharSequence text1 = "Data couldn't be save";

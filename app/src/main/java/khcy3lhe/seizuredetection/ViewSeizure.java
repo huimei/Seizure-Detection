@@ -321,6 +321,8 @@ public class ViewSeizure extends AppCompatActivity {
                         Intent intent = new Intent(ViewSeizure.this, ManageHistory.class);
                         startActivity(intent);
 
+                        finish();
+
                     } catch (SQLException e){
                         Context context1 = getApplicationContext();
                         CharSequence text1 = "Data couldn't be save";

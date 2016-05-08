@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,8 @@ public class AddSeizure extends AppCompatActivity{
 
     private DB_Seizure dbHelper;
     static int numberofRow;
+    private DB_Personal dbPersonal;
+    static Cursor cursor;
 
     static Spinner spinnerSeizureType;
     static EditText DateEdit;
@@ -79,12 +82,25 @@ public class AddSeizure extends AppCompatActivity{
         dbHelper.open();
         numberofRow = dbHelper.numberOfRows();
 
+        //Run DB_Persoanal
+        dbPersonal = new DB_Personal(this);
+        dbPersonal.open();
+        int rows = dbPersonal.numberOfRows();
+        if (rows > 0){
+            cursor = dbPersonal.fetchAll();
+            if (cursor!=null && cursor.moveToFirst()){
+                //Assign selected data to each item
+                itemSeizure = cursor.getString(cursor.getColumnIndex(DB_Personal.KEY_SEIZUREP));
+            }
+        }
+
         //Seizure Type
         spinnerSeizureType = (Spinner) findViewById(R.id.fill_seizureType);
         List<String> seizureType = Arrays.asList(getResources().getStringArray(R.array.seizureTypeList));
         ArrayAdapter<String> dataAdapterSeizure = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item,seizureType);
         dataAdapterSeizure.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSeizureType.setAdapter(dataAdapterSeizure);
+        spinnerSeizureType.setSelection(dataAdapterSeizure.getPosition(itemSeizure));
         spinnerSeizureType.setOnItemSelectedListener(new OnItemSelectedListener(){
 
             @Override
@@ -382,6 +398,8 @@ public class AddSeizure extends AppCompatActivity{
                         //Return to Parent Page
                         Intent intent = new Intent(AddSeizure.this, HomeActivity.class);
                         startActivity(intent);
+
+                        finish();
                     }else{
                         Context context1 = getApplicationContext();
                         CharSequence text1 = "Data couldn't be save";

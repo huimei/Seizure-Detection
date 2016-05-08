@@ -50,6 +50,7 @@ import com.angel.sdk.SrvHeartRate;
 import com.angel.sdk.SrvWaveformSignal;
 
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -91,7 +92,12 @@ public class AngelHome extends AppCompatActivity {
 
     //Database
     private DB_SeizureRecord dbHelper;
+    private DB_Personal dbPersonal;
+    static Cursor cursor;
     static int numberofRow;
+    static String pname;
+    static String contact;
+    static  String seizure;
 
     //Detection record
     static int magnitude;
@@ -130,6 +136,23 @@ public class AngelHome extends AppCompatActivity {
         dbHelper = new DB_SeizureRecord(this);
         dbHelper.open();
         numberofRow = dbHelper.numberOfRows();
+
+        //Run DB_Persoanal
+        dbPersonal = new DB_Personal(this);
+        dbPersonal.open();
+        int rows = dbPersonal.numberOfRows();
+        if (rows > 0){
+            cursor = dbPersonal.fetchAll();
+            if (cursor!=null && cursor.moveToFirst()){
+                //Assign selected data to each item
+                pname = cursor.getString(cursor.getColumnIndex(DB_Personal.KEY_NAME));
+                contact = cursor.getString(cursor.getColumnIndex(DB_Personal.KEY_CONTACT));
+                seizure = cursor.getString(cursor.getColumnIndex(DB_Personal.KEY_SEIZUREP));
+            }
+        } else{
+            pname = " ";
+            contact = "+60168516176";
+        }
 
         setContentView(R.layout.activity_measurements);
         orientation = getResources().getConfiguration().orientation;
@@ -535,7 +558,7 @@ public class AngelHome extends AppCompatActivity {
         //My own implementation
         if (magnitude > accThreshold && startFlag == 0){
             if (duration < 3){
-                Toast.makeText(this, "Potential Seizure Detected.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Potential seizure detected on " + pname, Toast.LENGTH_SHORT).show();
                 duration ++;
             }else{
                 startDetection();
@@ -596,7 +619,7 @@ public class AngelHome extends AppCompatActivity {
         }*/
         Toast.makeText(this, "Seizure Detected.", Toast.LENGTH_SHORT).show();
 
-        sendSMSMessage("Potential Seizure Detected");
+        sendSMSMessage("Potential seizure detected on " + pname);
 
         //Get date and time
         Calendar c = Calendar.getInstance();
@@ -624,8 +647,8 @@ public class AngelHome extends AppCompatActivity {
 
         //Detect if seizure is longer than 5 minutes (used 5sec for testing purpose
         if (duration >= durationThreshold && fiveMinsFlag == 0){
-            Toast.makeText(this, "Seizure Longer than 5mins.", Toast.LENGTH_SHORT).show();
-            sendSMSMessage("Seizure happened more than 5mins. Please call ambulance service.");
+            Toast.makeText(this, "Seizure longer than 5mins.", Toast.LENGTH_SHORT).show();
+            sendSMSMessage("Seizure on " + pname + " happened more than 5mins. Please call ambulance service.");
             fiveMinsFlag = 1;
         }
     }
@@ -675,7 +698,7 @@ public class AngelHome extends AppCompatActivity {
 
         dbSeizure.open();
         number = dbSeizure.numberOfRows();
-        dbSeizure.insertSeizure(null, dateStart, timeStart, durationRecorded, null, null, null, null, 0, null, null);
+        dbSeizure.insertSeizure(seizure, dateStart, timeStart, durationRecorded, null, null, null, null, 0, null, null);
 
         //Check if database updated correctly
         if (dbHelper.numberOfRows()>numberofRow && dbSeizure.numberOfRows()>number){
@@ -699,7 +722,7 @@ public class AngelHome extends AppCompatActivity {
 
     protected void sendSMSMessage(String message) {
         Log.i("Send SMS", "");
-        String phoneNo = "+60168516176";
+        String phoneNo = contact;
 
         try {
             SmsManager smsManager = SmsManager.getDefault();
