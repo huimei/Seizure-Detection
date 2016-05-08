@@ -536,13 +536,13 @@ public class AngelHome extends AppCompatActivity {
                 Toast.makeText(this, "Potential Seizure Detected.", Toast.LENGTH_SHORT).show();
                 duration ++;
             }else{
-                startDetectionAcc();
+                startDetection();
             }
         }else if(magnitude > accThreshold && startFlag == 1){
-            detectionAcc();
+            detection();
         }
         if (magnitude < accThreshold && startFlag == 1){
-           endDetectionAcc();
+           endDetection();
         }
         //My own implementation ends here
 
@@ -568,7 +568,30 @@ public class AngelHome extends AppCompatActivity {
         mHandler.removeCallbacks(mPeriodicReader);
     }
 
-    public void startDetectionAcc(){
+    public void startDetection(){
+        //This is to check if heart rate increases, currently not available yet
+        /*if (heartRateThresholdMedian != 0.0 || heartRateThresholdMean != 0.0){
+            Toast.makeText(this, "Seizure Detected.", Toast.LENGTH_SHORT).show();
+
+            //Get date and time
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat tf = new SimpleDateFormat("HH:mm");
+            dateStart = df.format(c.getTime());
+            timeStart = tf.format(c.getTime());
+            startTime = System.currentTimeMillis();
+
+            //Record starting magnitude
+            magnitudeStart = magnitude;
+            accelerometerRecord.add(magnitudeStart);
+
+            //Record starting heart rate
+            heartRateStart = heartRate;
+            heartRecord.add(heartRateStart);
+
+            //Set flag to true
+            startFlag = 1;
+        }*/
         Toast.makeText(this, "Seizure Detected.", Toast.LENGTH_SHORT).show();
 
         //Get date and time
@@ -590,7 +613,7 @@ public class AngelHome extends AppCompatActivity {
         //Set flag to true
         startFlag = 1;
     }
-    public void detectionAcc() {
+    public void detection() {
         duration ++;
         accelerometerRecord.add(magnitude);
         heartRecord.add(heartRate);
@@ -601,7 +624,7 @@ public class AngelHome extends AppCompatActivity {
             fiveMinsFlag = 1;
         }
     }
-    public void endDetectionAcc(){
+    public void endDetection(){
         Toast.makeText(this, "Seizure Ended.", Toast.LENGTH_SHORT).show();
 
         //Get time
@@ -639,7 +662,7 @@ public class AngelHome extends AppCompatActivity {
 
         //Insert data to seizure record
         dbHelper.insertSeizureRecord(dateStart, timeStart, durationRecorded, heartRateStart, heartRateEnd, heart,
-                                    magnitudeStart, magnitudeEnd, acc, 0);
+                                    heartRateThresholdMedian, heartRateThresholdMean, magnitudeStart, magnitudeEnd, acc, 0);
 
         //Insert data to seizure for user to fill in details
         DB_Seizure dbSeizure = new DB_Seizure(this);

@@ -28,6 +28,8 @@ public class DB_SeizureRecord {
     public static final String KEY_STARTHEART = "startHeart";
     public static final String KEY_ENDHEART = "endHeart";
     public static final String KEY_DURATIONHEART = "durationHeart";
+    public static final String KEY_THRESHOLDMEDIAN = "thresholdMedian";
+    public static final String KEY_THRESHOLDMEAN = "thresholdMean";
     public static final String KEY_STARTAcc = "startAcc";
     public static final String KEY_ENDAcc = "endAcc";
     public static final String KEY_DURATIONAcc = "durationAcc";
@@ -77,8 +79,8 @@ public class DB_SeizureRecord {
     }
 
     public boolean insertSeizureRecord  (String date, String startTime, String duration,
-                                         int startHeart, int endHeart, String durationHeart, int startAcc,
-                                         int endAcc, String durationAcc, int falseAlarm) {
+                                         int startHeart, int endHeart, String durationHeart, double thresholdMedian,
+                                         double thresholdMean, int startAcc, int endAcc, String durationAcc, int falseAlarm) {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -88,6 +90,8 @@ public class DB_SeizureRecord {
         contentValues.put(KEY_STARTHEART, startHeart);
         contentValues.put(KEY_ENDHEART, endHeart);
         contentValues.put(KEY_DURATIONHEART, durationHeart);
+        contentValues.put(KEY_THRESHOLDMEDIAN, thresholdMedian);
+        contentValues.put(KEY_THRESHOLDMEAN, thresholdMean);
         contentValues.put(KEY_STARTAcc, startAcc);
         contentValues.put(KEY_ENDAcc, endAcc);
         contentValues.put(KEY_DURATIONAcc, durationAcc);
@@ -97,32 +101,25 @@ public class DB_SeizureRecord {
         return true;
     }
 
-    public boolean updateSeizureRecord (int id, String date, String startTime, String duration,
-                                 int startHeart, int endHeart, String durationHeart, int startAcc,
-                                 int endAcc, String durationAcc, int falseAlarm) {
+    public boolean updateSeizureRecord (String date, String startTime, String duration, int falseAlarm) {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_DATE, date);
         contentValues.put(KEY_STARTTIME, startTime);
         contentValues.put(KEY_DURATION, duration);
-        contentValues.put(KEY_STARTHEART, startHeart);
-        contentValues.put(KEY_ENDHEART, endHeart);
-        contentValues.put(KEY_DURATIONHEART, durationHeart);
-        contentValues.put(KEY_STARTAcc, startAcc);
-        contentValues.put(KEY_ENDAcc, endAcc);
-        contentValues.put(KEY_DURATIONAcc, durationAcc);
         contentValues.put(KEY_FALSEAMLARM, falseAlarm);
 
-        db.update(SQLITE_TABLE, contentValues, "_id = ? ", new String[] { Integer.toString(id) } );
+        db.update(SQLITE_TABLE, contentValues, KEY_DATE + " = ? AND "+ KEY_STARTTIME + " = ?", new String[] {date, startTime} );
         return true;
     }
 
-    public void deleteSeizureRecord (int id) {
+    public void falseSeizureRecord (String date, String time) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        db.delete(SQLITE_TABLE,
-                KEY_ROWID + "=?",
-                new String[] {Integer.toString(id)});
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_FALSEAMLARM, 1);
+
+        db.update(SQLITE_TABLE, contentValues, KEY_DATE + " = ? AND "+ KEY_STARTTIME + " = ?", new String[] {date, time} );
     }
 
 

@@ -10,7 +10,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "SeizureDetection";
 
     //Increase database version whenever new table made
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     //Database for Medication Reminder
     private static final String SQLITE_TABLE_Medication = "Medication";
@@ -80,6 +80,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String KEY_STARTHEART = "startHeart";
     public static final String KEY_ENDHEART = "endHeart";
     public static final String KEY_DURATIONHEART = "durationHeart";
+    public static final String KEY_THRESHOLDMEDIAN = "thresholdMedian";
+    public static final String KEY_THRESHOLDMEAN = "thresholdMean";
     public static final String KEY_STARTAcc = "startAcc";
     public static final String KEY_ENDAcc = "endAcc";
     public static final String KEY_DURATIONAcc = "durationAcc";
@@ -96,6 +98,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_STARTHEART + " varchar," +
                     KEY_ENDHEART + " varchar," +
                     KEY_DURATIONHEART + " varchar," +
+                    KEY_THRESHOLDMEDIAN + " integer," +
+                    KEY_THRESHOLDMEAN + " integer," +
                     KEY_STARTAcc + " varchar," +
                     KEY_ENDAcc + " varchar," +
                     KEY_DURATIONAcc + " varchar," +

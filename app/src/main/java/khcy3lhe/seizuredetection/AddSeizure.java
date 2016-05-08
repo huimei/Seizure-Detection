@@ -66,8 +66,6 @@ public class AddSeizure extends AppCompatActivity{
     private static Calendar c;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -361,7 +359,15 @@ public class AddSeizure extends AppCompatActivity{
                     dbHelper.insertSeizure(itemSeizure, itemDate, itemTime, itemDuration,
                             itemPreictal, itemPostictal, itemTrigger, itemSleep, itemMedicated, null, itemComments);
 
-                    if (dbHelper.numberOfRows()>numberofRow){
+                    //Insert data to seizure record
+                    DB_SeizureRecord db_seizureRecord = new DB_SeizureRecord(AddSeizure.this);
+                    int number;
+
+                    db_seizureRecord.open();
+                    number = db_seizureRecord.numberOfRows();
+                    db_seizureRecord.insertSeizureRecord(itemDate, itemTime, itemDuration, 0, 0, null, 0, 0, 0, 0, null, 1);
+
+                    if (dbHelper.numberOfRows()>numberofRow && db_seizureRecord.numberOfRows() > number){
                         //Show Text on Screen
                         Context context = getApplicationContext();
                         CharSequence text = "New seizure record saved";

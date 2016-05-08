@@ -23,6 +23,8 @@ public class ManageHistory extends AppCompatActivity {
     private DB_Seizure dbHelper;
     private SimpleCursorAdapter dataAdapter;
     public static int ID;
+    public static String date;
+    public static String time;
     public String seizureType;
     public String history_date;
     public String history_time;
@@ -73,6 +75,8 @@ public class ManageHistory extends AppCompatActivity {
                 cursor = (Cursor) listView.getItemAtPosition(position);
 
                 ID = cursor.getInt(cursor.getColumnIndex(DB_Seizure.KEY_ROWID));
+                date = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_DATE));
+                time = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_STARTTIME));
 
                 Intent intent = new Intent(ManageHistory.this, ViewSeizure.class);
 
@@ -144,8 +148,14 @@ public class ManageHistory extends AppCompatActivity {
         deleteDialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
+                //Set record to false alarm
+                DB_SeizureRecord db_seizureRecord = new DB_SeizureRecord(ManageHistory.this);
+                db_seizureRecord.open();
+                db_seizureRecord.falseSeizureRecord(date, time);
+
                 dbHelper.deleteSeizure(ID);
                 updateList();
+
                 //Notify ListView About Change of Data
                 listView.deferNotifyDataSetChanged();
 
@@ -155,7 +165,7 @@ public class ManageHistory extends AppCompatActivity {
         });
 
         deleteDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            // do something when the button is clicked
+            //Do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
 
             }

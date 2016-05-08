@@ -156,7 +156,7 @@
             android:spinnerMode="dialog"
             android:entries="@array/seizureTypeList"/>
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="date"
@@ -164,13 +164,9 @@
             android:id="@+id/viewfill_date"
             android:layout_alignTop="@+id/viewDate"
             android:layout_alignRight="@+id/viewfill_seizureType"
-            android:layout_alignEnd="@+id/viewfill_seizureType"
-            android:hint="@string/dateFormat"
-            android:clickable="true"
-            android:focusable="false"
-            android:onClick="showDatePickerDialog"/>
+            android:layout_alignEnd="@+id/viewfill_seizureType" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="time"
@@ -178,13 +174,9 @@
             android:id="@+id/viewfill_time"
             android:layout_alignTop="@+id/viewStartTime"
             android:layout_alignRight="@+id/viewfill_date"
-            android:layout_alignEnd="@+id/viewfill_date"
-            android:hint="@string/timeFormat"
-            android:clickable="true"
-            android:focusable="false"
-            android:onClick="showTimePickerDialog"/>
+            android:layout_alignEnd="@+id/viewfill_date" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
@@ -192,8 +184,7 @@
             android:id="@+id/viewfill_duration"
             android:layout_alignTop="@+id/viewDuration"
             android:layout_alignLeft="@+id/viewfill_time"
-            android:layout_alignStart="@+id/viewfill_time"
-            android:hint="@string/durationFormat" />
+            android:layout_alignStart="@+id/viewfill_time" />
 
         <Spinner
             android:layout_width="wrap_content"

@@ -43,9 +43,9 @@ public class ViewSeizure extends AppCompatActivity {
     static Cursor cursor;
     static int ID;
 
-    static EditText DateEdit;
-    static EditText TimeEdit;
-    static EditText DurationEdit;
+    static TextView DateEdit;
+    static TextView TimeEdit;
+    static TextView DurationEdit;
     static EditText CommentsEdit;
     static Spinner spinnerSeizureType;
     static Spinner spinnerPreictal;
@@ -84,14 +84,6 @@ public class ViewSeizure extends AppCompatActivity {
         ID = ManageHistory.ID;
         cursor = dbHelper.fetchSeizure(ID);
 
-        //Show Text on Screen
-        Context context = getApplicationContext();
-        CharSequence text = "ID gotten: "+ID;
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-
-        toast.show();
-
         if (cursor!=null && cursor.moveToFirst()){
             //Assign selected data to each item
             itemSeizure = cursor.getString(cursor.getColumnIndex(DB_Seizure.KEY_SEIZURE));
@@ -129,27 +121,17 @@ public class ViewSeizure extends AppCompatActivity {
         });
 
         //Date
-        DateEdit = (EditText) findViewById(R.id.viewfill_date);
+        DateEdit = (TextView) findViewById(R.id.viewfill_date);
         DateEdit.setText(String.valueOf(itemDate));
-        DateEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(v);
-            }
-        });
+        itemDate = DateEdit.getText().toString();
 
         //Time
-        TimeEdit = (EditText) findViewById(R.id.viewfill_time);
+        TimeEdit = (TextView) findViewById(R.id.viewfill_time);
         TimeEdit.setText(String.valueOf(itemTime));
-        TimeEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTimePickerDialog(v);
-            }
-        });
+        itemTime = TimeEdit.getText().toString();
 
         //Duration
-        DurationEdit = (EditText) findViewById(R.id.viewfill_duration);
+        DurationEdit = (TextView) findViewById(R.id.viewfill_duration);
         DurationEdit.setText(String.valueOf(itemDuration));
         itemDuration = DurationEdit.getText().toString();
 
@@ -270,80 +252,6 @@ public class ViewSeizure extends AppCompatActivity {
         });
     }
 
-    //Show fragments
-    public void showDatePickerDialog(View v) {
-        DialogFragment DatePickerFragment = new CalenderFragment();
-        DatePickerFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    public void showTimePickerDialog(View v) {
-        DialogFragment TimePickerFragment = new TimeFragment();
-        TimePickerFragment.show(getSupportFragmentManager(), "timePicker");
-    }
-
-
-    //Fragment for Date Picker
-    public static class CalenderFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            // Use the current date as the default date in the picker
-            c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
-            dialog.getDatePicker().setMaxDate(new Date().getTime());
-
-            // Create a new instance of DatePickerDialog and return it
-            return dialog;
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-
-            // Do something with the time chosen by the user
-            c.set(Calendar.YEAR, year);
-            c.set(Calendar.MONTH, month);
-            c.set(Calendar.DAY_OF_MONTH, day);
-
-            // Do something with the time chosen by the user
-            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy");
-            itemDate = dateTimeFormat.format(c.getTime());
-
-            DateEdit.setText(itemDate);
-        }
-    }
-
-    //Fragment for Time Picker
-    public static class TimeFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
-        }
-
-        @Override
-        public void onTimeSet(TimePicker view, int hour, int minute) {
-            // Do something with the time chosen by the user
-            c.set(Calendar.HOUR_OF_DAY, hour);
-            c.set(Calendar.MINUTE, minute);
-
-            // Do something with the time chosen by the user
-            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm");
-            itemTime = dateTimeFormat.format(c.getTime());
-
-            TimeEdit.setText(itemTime);
-        }
-    }
-
     public void addData() {
 
         if (itemDate==null || itemTime==null){
@@ -390,6 +298,11 @@ public class ViewSeizure extends AppCompatActivity {
                 public void onClick(DialogInterface arg0, int arg1) {
 
                     try{
+                        //Update seizure record
+                        DB_SeizureRecord db_seizureRecord = new DB_SeizureRecord(ViewSeizure.this);
+                        db_seizureRecord.open();
+                        db_seizureRecord.updateSeizureRecord(itemDate, itemTime, itemDuration, 0);
+
                         dbHelper.updateSeizure(ID, itemSeizure, itemDate, itemTime, itemDuration,
                                 itemPreictal, itemPostictal, itemTrigger, itemSleep, itemMedicated, itemVideo, itemComments);
 
