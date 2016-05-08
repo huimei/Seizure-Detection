@@ -18,6 +18,12 @@ public class ManagePage extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    public void ManagePersonalDetails(View view)
+    {
+        Intent intent = new Intent(ManagePage.this, ManagePersonalDetails.class);
+        startActivity(intent);
+    }
+
     public void ManageMedicationAlert(View view)
     {
         Intent intent = new Intent(ManagePage.this, ManageMedicatonAlert.class);
@@ -29,5 +35,4 @@ public class ManagePage extends AppCompatActivity {
         Intent intent = new Intent(ManagePage.this, ManageAppointment.class);
         startActivity(intent);
     }
-
 }

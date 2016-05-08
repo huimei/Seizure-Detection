@@ -10,7 +10,23 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "SeizureDetection";
 
     //Increase database version whenever new table made
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
+
+    //Database for Personal details
+    private static final String SQLITE_TABLE_PERSONAL = "Personal";
+    public static final String KEY_ROWID_PERSONAL = "_id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_GENDER = "gender";
+    public static final String KEY_SEIZUREP = "seizure";
+    public static final String KEY_CONTACT = "contact";
+
+    private static final String DATABASE_CREATE_PERSONAL =
+            "CREATE TABLE if not exists " + SQLITE_TABLE_PERSONAL + " (" +
+                    KEY_ROWID_PERSONAL + " integer PRIMARY KEY autoincrement," +
+                    KEY_NAME + " varchar," +
+                    KEY_GENDER + " varchar," +
+                    KEY_SEIZUREP + " varchar," +
+                    KEY_CONTACT + " varchar)" ;
 
     //Database for Medication Reminder
     private static final String SQLITE_TABLE_Medication = "Medication";
@@ -116,6 +132,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(DATABASE_CREATE_Seizure);
         db.execSQL(DATABASE_CREATE_Appointment);
         db.execSQL(DATABASE_CREATE_SeizureRecord);
+        db.execSQL(DATABASE_CREATE_PERSONAL);
     }
 
     @Override
@@ -126,6 +143,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_Seizure);
         db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_Appointment);
         db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_SeizureRecord);
+        db.execSQL("DROP TABLE IF EXISTS " + SQLITE_TABLE_PERSONAL);
         onCreate(db);
     }
 

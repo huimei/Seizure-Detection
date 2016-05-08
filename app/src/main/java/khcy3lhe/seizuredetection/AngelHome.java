@@ -53,6 +53,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -594,6 +596,8 @@ public class AngelHome extends AppCompatActivity {
         }*/
         Toast.makeText(this, "Seizure Detected.", Toast.LENGTH_SHORT).show();
 
+        sendSMSMessage("Potential Seizure Detected");
+
         //Get date and time
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -621,6 +625,7 @@ public class AngelHome extends AppCompatActivity {
         //Detect if seizure is longer than 5 minutes (used 5sec for testing purpose
         if (duration >= durationThreshold && fiveMinsFlag == 0){
             Toast.makeText(this, "Seizure Longer than 5mins.", Toast.LENGTH_SHORT).show();
+            sendSMSMessage("Seizure happened more than 5mins. Please call ambulance service.");
             fiveMinsFlag = 1;
         }
     }
@@ -690,6 +695,22 @@ public class AngelHome extends AppCompatActivity {
         duration = 0;
         heartRecord.clear();
         accelerometerRecord.clear();
+    }
+
+    protected void sendSMSMessage(String message) {
+        Log.i("Send SMS", "");
+        String phoneNo = "+60168516176";
+
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNo, null, message, null, null);
+            Toast.makeText(getApplicationContext(), "SMS sent.", Toast.LENGTH_LONG).show();
+        }
+
+        catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "SMS failed to send", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
     }
 
 }
